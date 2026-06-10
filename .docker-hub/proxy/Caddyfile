@@ -14,6 +14,9 @@
 	handle_path /api/* {
 		reverse_proxy {$API_UPSTREAM} {
 			header_up X-Forwarded-Proto https
+			# The API serves at root but is exposed under /api; tell Symfony so it
+			# generates correct absolute URLs (e.g. the OAuth/OIDC redirect_uri).
+			header_up X-Forwarded-Prefix /api
 		}
 	}
 
