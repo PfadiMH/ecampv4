@@ -104,14 +104,9 @@ class FirewallTest extends ECampApiTestCase {
     }
 
     private static function isProtectedByFirewall(mixed $endpoint): bool {
+        // Login is OIDC-only: the only public auth endpoint is the OIDC start route.
         return match ($endpoint) {
-            '/authentication_token' => false,
-            '/auth/google' => false,
-            '/auth/pbsmidata' => false,
-            '/auth/cevidb' => false,
-            '/auth/jubladb' => false,
-            '/auth/reset_password' => false,
-            '/auth/resend_activation' => false,
+            '/auth/oidc' => false,
             '/content_types' => false,
             '/invitations' => false,
             '/token/refresh' => false,

@@ -602,6 +602,7 @@
     },
     "changeLanguage": "Sprache ändern",
     "collaborationAbilities": {
+      "contributor": "Lese- & Schreibrecht, kann keine Verantwortlichen ändern",
       "guest": "Nur Leserecht",
       "manager": "Vollständige Lageradministration, sowie Lese- & Schreibrecht",
       "member": "Lese- & Schreibrecht"

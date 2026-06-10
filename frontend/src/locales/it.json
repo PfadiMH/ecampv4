@@ -482,6 +482,7 @@
     },
     "changeLanguage": "Cambia lingua",
     "collaborationAbilities": {
+      "contributor": "Lettura e scrittura, senza modificare i responsabili",
       "guest": "Solo lettura",
       "manager": "Lettura, scrittura e amministrazione del campo",
       "member": "Lettura e scrittura"

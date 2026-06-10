@@ -70,3 +70,24 @@ knpu_oauth2_client:
             client_secret: '%env(OAUTH_JUBLADB_CLIENT_SECRET)%'
             redirect_route: connect_jubladb_check
             redirect_params: {}
+
+        # Generic OpenID Connect provider, configured entirely via environment variables.
+        # Point the three URLs at your IdP (e.g. Keycloak / Authentik / Auth0 / Azure AD).
+        oidc:
+            type: generic
+            provider_class: League\OAuth2\Client\Provider\GenericProvider
+            client_class: App\OAuth\JWTStateOAuth2Client
+
+            provider_options:
+                urlAuthorize: '%env(OIDC_AUTHORIZE_URL)%'
+                urlAccessToken: '%env(OIDC_TOKEN_URL)%'
+                urlResourceOwnerDetails: '%env(OIDC_USERINFO_URL)%'
+                # the OIDC subject identifier claim used as the stable user id
+                responseResourceOwnerId: sub
+                scopes: ['openid', 'email', 'profile']
+                scopeSeparator: ' '
+
+            client_id: '%env(OIDC_CLIENT_ID)%'
+            client_secret: '%env(OIDC_CLIENT_SECRET)%'
+            redirect_route: connect_oidc_check
+            redirect_params: {}

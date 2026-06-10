@@ -64,9 +64,6 @@
             "href": "/invitations{/id}{/action}",
             "templated": true
         },
-        "login": {
-            "href": "/authentication_token"
-        },
         "materialItems": {
             "href": "/material_items{/id}{?camp,camp[],materialList,materialList[],materialNode,materialNode[],period}",
             "templated": true
@@ -83,20 +80,8 @@
             "href": "/content_node/multi_selects{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",
             "templated": true
         },
-        "oauthCevidb": {
-            "href": "/auth/cevidb{?callback}",
-            "templated": true
-        },
-        "oauthGoogle": {
-            "href": "/auth/google{?callback}",
-            "templated": true
-        },
-        "oauthJubladb": {
-            "href": "/auth/jubladb{?callback}",
-            "templated": true
-        },
-        "oauthPbsmidata": {
-            "href": "/auth/pbsmidata{?callback}",
+        "oauthOidc": {
+            "href": "/auth/oidc{?callback}",
             "templated": true
         },
         "periods": {
@@ -113,14 +98,6 @@
         },
         "refreshToken": {
             "href": "/token/refresh"
-        },
-        "resendActivation": {
-            "href": "/auth/resend_activation",
-            "templated": false
-        },
-        "resetPassword": {
-            "href": "/auth/reset_password{/id}",
-            "templated": true
         },
         "responsiveLayouts": {
             "href": "/content_node/responsive_layouts{/id}{?contentType,contentType[],root,root[],camp,period,isRoot}",

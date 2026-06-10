@@ -109,13 +109,7 @@ class ResponseSnapshotTest extends ECampApiTestCase {
             // @noinspection PhpDuplicateMatchArmBodyInspection
             return match ($endpoint) {
                 '/' => false,
-                '/authentication_token' => false,
-                '/auth/google' => false,
-                '/auth/pbsmidata' => false,
-                '/auth/cevidb' => false,
-                '/auth/jubladb' => false,
-                '/auth/reset_password' => false,
-                '/auth/resend_activation' => false,
+                '/auth/oidc' => false,
                 '/content_nodes' => false,
                 '/content_node/checklist_nodes' => false,
                 '/content_node/column_layouts' => false,
