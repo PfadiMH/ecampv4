@@ -1,0 +1,30 @@
+# Public entrypoint for the eCamp stack on Railway.
+# Serves everything from a single origin (required by the cookie-based JWT auth):
+#   /api/*  -> api service   (prefix stripped; the API serves at root)
+#   /print* -> print service (prefix kept)
+#   /*      -> frontend service (static SPA)
+{
+	admin off
+	auto_https off
+}
+
+:{$PORT} {
+	# Railway terminates TLS at the edge and forwards plain HTTP to this proxy,
+	# so force https downstream for correct secure cookies and redirect URIs.
+	handle_path /api/* {
+		reverse_proxy {$API_UPSTREAM} {
+			header_up X-Forwarded-Proto https
+		}
+	}
+
+	@print path /print /print/*
+	handle @print {
+		reverse_proxy {$PRINT_UPSTREAM} {
+			header_up X-Forwarded-Proto https
+		}
+	}
+
+	handle {
+		reverse_proxy {$FRONTEND_UPSTREAM}
+	}
+}
