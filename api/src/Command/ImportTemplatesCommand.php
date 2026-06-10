@@ -16,6 +16,8 @@ use App\Entity\ContentNode\SingleText;
 use App\Entity\ContentNode\Storyboard;
 use App\Entity\ContentType;
 use App\Entity\MaterialList;
+use App\Entity\Profile;
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -87,6 +89,25 @@ class ImportTemplatesCommand extends Command {
             return Command::FAILURE;
         }
 
+        // Prototype camps require a creator/owner (NOT NULL). This instance is OIDC-only
+        // with no users yet, so use a dedicated non-login system user to own the templates.
+        $profileRepo = $this->em->getRepository(Profile::class);
+        $sysProfile = $profileRepo->findOneBy(['email' => 'templates@pfadimh.ch']);
+        if (null !== $sysProfile) {
+            $owner = $sysProfile->user;
+        } else {
+            $profile = new Profile();
+            $profile->email = 'templates@pfadimh.ch';
+            $profile->firstname = 'Camp';
+            $profile->surname = 'Templates';
+            $profile->nickname = 'templates';
+            $owner = new User();
+            $owner->state = User::STATE_ACTIVATED;
+            $owner->profile = $profile;
+            $this->em->persist($owner);
+            $io->writeln('  created system user templates@pfadimh.ch (cannot log in)');
+        }
+
         $campRepo = $this->em->getRepository(Camp::class);
         $imported = 0;
         $skipped = 0;
@@ -95,6 +116,7 @@ class ImportTemplatesCommand extends Command {
             if ($campRepo->findOneBy(['title' => $tpl['title'], 'isPrototype' => true])) {
                 $io->writeln("  skip (already exists): {$tpl['title']}");
                 ++$skipped;
+
                 continue;
             }
 
@@ -104,6 +126,8 @@ class ImportTemplatesCommand extends Command {
             $camp->motto = $tpl['motto'] ?? null;
             $camp->isPrototype = true;
             $camp->isPublic = true;
+            $camp->creator = $owner;
+            $camp->owner = $owner;
             $this->em->persist($camp);
 
             foreach ($tpl['materialLists'] as $ml) {
@@ -157,7 +181,8 @@ class ImportTemplatesCommand extends Command {
                     }
                     $entById[$node['srcId']] = $entity;
                 }
-                /** @var ColumnLayout|null $rootEntity */
+
+                /** @var null|ColumnLayout $rootEntity */
                 $rootEntity = $entById[$catData['rootSrcId']] ?? null;
                 // Second pass: wire the tree (root self-references; children point to parent).
                 foreach ($nodes as $node) {
