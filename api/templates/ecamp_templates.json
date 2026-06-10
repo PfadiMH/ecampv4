@@ -1,0 +1,2900 @@
+{
+  "extractedFrom": "app.ecamp3.ch",
+  "contentTypesSource": [
+    {
+      "name": "Checklist",
+      "active": true
+    },
+    {
+      "name": "ColumnLayout",
+      "active": true
+    },
+    {
+      "name": "LAThematicArea",
+      "active": true
+    },
+    {
+      "name": "LearningObjectives",
+      "active": true
+    },
+    {
+      "name": "LearningTopics",
+      "active": true
+    },
+    {
+      "name": "Material",
+      "active": true
+    },
+    {
+      "name": "Notes",
+      "active": true
+    },
+    {
+      "name": "ResponsiveLayout",
+      "active": true
+    },
+    {
+      "name": "SafetyConsiderations",
+      "active": true
+    },
+    {
+      "name": "Storyboard",
+      "active": true
+    },
+    {
+      "name": "Storycontext",
+      "active": true
+    }
+  ],
+  "templates": [
+    {
+      "srcId": "75b3572a338e",
+      "title": "J+S Lager (Deutsch)",
+      "motto": "",
+      "categories": [
+        {
+          "srcId": "a0af9dd993d9",
+          "short": "ES",
+          "name": "Essen",
+          "color": "#BBBBBB",
+          "numberingStyle": "-",
+          "rootSrcId": "7b41e3aff0e5",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "Material",
+            "Notes"
+          ]
+        },
+        {
+          "srcId": "b41d284199c2",
+          "short": "LA",
+          "name": "Lageraktivität",
+          "color": "#FF9800",
+          "numberingStyle": "1",
+          "rootSrcId": "195c74ab5a69",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "LAThematicArea",
+            "Material",
+            "Notes",
+            "Storyboard",
+            "Storycontext"
+          ]
+        },
+        {
+          "srcId": "9a8a15bf5b9d",
+          "short": "LP",
+          "name": "Lagerprogramm",
+          "color": "#90B7E4",
+          "numberingStyle": "1",
+          "rootSrcId": "41bcdd2d75d2",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "Material",
+            "Notes",
+            "Storyboard",
+            "Storycontext"
+          ]
+        },
+        {
+          "srcId": "9adf1b7753eb",
+          "short": "LS",
+          "name": "Lagersport",
+          "color": "#4DBB52",
+          "numberingStyle": "1",
+          "rootSrcId": "5f578b4a7fae",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "Material",
+            "Notes",
+            "SafetyConsiderations",
+            "Storyboard",
+            "Storycontext"
+          ]
+        }
+      ],
+      "contentNodes": [
+        {
+          "srcId": "7b41e3aff0e5",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "7b41e3aff0e5"
+        },
+        {
+          "srcId": "26c1a70471ed",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "7b41e3aff0e5",
+          "rootSrcId": "7b41e3aff0e5"
+        },
+        {
+          "srcId": "f71814486ee6",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "1",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "7b41e3aff0e5",
+          "rootSrcId": "7b41e3aff0e5"
+        },
+        {
+          "srcId": "195c74ab5a69",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "195c74ab5a69"
+        },
+        {
+          "srcId": "a3c948021c7e",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "0d280a673231",
+          "rootSrcId": "195c74ab5a69"
+        },
+        {
+          "srcId": "42bd640cc0e8",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "0d280a673231",
+          "rootSrcId": "195c74ab5a69"
+        },
+        {
+          "srcId": "f1f12096fca6",
+          "type": "multi_selects",
+          "contentTypeName": "LAThematicArea",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "options": {
+              "security": {
+                "checked": false
+              },
+              "outdoorTechnique": {
+                "checked": false
+              },
+              "pioneeringTechnique": {
+                "checked": false
+              },
+              "natureAndEnvironment": {
+                "checked": false
+              },
+              "campsiteAndSurroundings": {
+                "checked": false
+              },
+              "preventionAndIntegration": {
+                "checked": false
+              }
+            }
+          },
+          "parentSrcId": "0d280a673231",
+          "rootSrcId": "195c74ab5a69"
+        },
+        {
+          "srcId": "68059664ad0d",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-top",
+          "position": 2,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "0d280a673231",
+          "rootSrcId": "195c74ab5a69"
+        },
+        {
+          "srcId": "44e70e042bd0",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "sections": {
+              "abd17cbf-f874-4888-8859-0f0a4f93bafa": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "0d280a673231",
+          "rootSrcId": "195c74ab5a69"
+        },
+        {
+          "srcId": "73f38f452b2a",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "0d280a673231",
+          "rootSrcId": "195c74ab5a69"
+        },
+        {
+          "srcId": "0d280a673231",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "195c74ab5a69",
+          "rootSrcId": "195c74ab5a69"
+        },
+        {
+          "srcId": "41bcdd2d75d2",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "41bcdd2d75d2"
+        },
+        {
+          "srcId": "ebca8efbceab",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "41bcdd2d75d2",
+          "rootSrcId": "41bcdd2d75d2"
+        },
+        {
+          "srcId": "7f69c34d30d5",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "ebca8efbceab",
+          "rootSrcId": "41bcdd2d75d2"
+        },
+        {
+          "srcId": "e49621c83f1a",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "ebca8efbceab",
+          "rootSrcId": "41bcdd2d75d2"
+        },
+        {
+          "srcId": "5ecf806acdf5",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "ebca8efbceab",
+          "rootSrcId": "41bcdd2d75d2"
+        },
+        {
+          "srcId": "6050f8d01c5a",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "sections": {
+              "9816258f-de1f-405c-9475-fc669f443485": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "ebca8efbceab",
+          "rootSrcId": "41bcdd2d75d2"
+        },
+        {
+          "srcId": "97dffe215773",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "ebca8efbceab",
+          "rootSrcId": "41bcdd2d75d2"
+        },
+        {
+          "srcId": "5f578b4a7fae",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "5f578b4a7fae"
+        },
+        {
+          "srcId": "c5d7edf9f8df",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "5f578b4a7fae",
+          "rootSrcId": "5f578b4a7fae"
+        },
+        {
+          "srcId": "04bd98b65b99",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "c5d7edf9f8df",
+          "rootSrcId": "5f578b4a7fae"
+        },
+        {
+          "srcId": "f9adb6d2af7f",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "c5d7edf9f8df",
+          "rootSrcId": "5f578b4a7fae"
+        },
+        {
+          "srcId": "8db20e389dd5",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "c5d7edf9f8df",
+          "rootSrcId": "5f578b4a7fae"
+        },
+        {
+          "srcId": "537ff0b1bc85",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "sections": {
+              "1fc47265-b725-4676-8b21-e8c06b5493da": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "c5d7edf9f8df",
+          "rootSrcId": "5f578b4a7fae"
+        },
+        {
+          "srcId": "038230547b9b",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "c5d7edf9f8df",
+          "rootSrcId": "5f578b4a7fae"
+        }
+      ],
+      "materialLists": [
+        {
+          "srcId": "c58d5153bc00",
+          "name": "Baumarkt"
+        },
+        {
+          "srcId": "a1e7ba6c21f2",
+          "name": "J+S Material"
+        },
+        {
+          "srcId": "a1f4fbc719ec",
+          "name": "Lebensmittel"
+        }
+      ],
+      "progressLabels": [
+        {
+          "srcId": "fb0a57fdb494",
+          "title": "In Planung",
+          "position": 1
+        },
+        {
+          "srcId": "8e5a07a8f2aa",
+          "title": "Geplant",
+          "position": 2
+        },
+        {
+          "srcId": "02a7555e527b",
+          "title": "Lagerleitung OK",
+          "position": 3
+        },
+        {
+          "srcId": "b4782643d5b1",
+          "title": "Coach OK",
+          "position": 4
+        }
+      ],
+      "checklists": []
+    },
+    {
+      "srcId": "dffcb39cb4fb",
+      "title": "J+S Kurs (Deutsch)",
+      "motto": "",
+      "categories": [
+        {
+          "srcId": "84fc37193a5d",
+          "short": "A",
+          "name": "Ausbildung",
+          "color": "#90B7E4",
+          "numberingStyle": "1",
+          "rootSrcId": "1111e17fe6ee",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "Checklist",
+            "ColumnLayout",
+            "LearningObjectives",
+            "LearningTopics",
+            "Material",
+            "Notes",
+            "ResponsiveLayout",
+            "SafetyConsiderations",
+            "Storyboard"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "da597aa08b08",
+          "short": "E",
+          "name": "LS/T erleben",
+          "color": "#FF9800",
+          "numberingStyle": "1",
+          "rootSrcId": "78096cbe145a",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "Checklist",
+            "ColumnLayout",
+            "LearningObjectives",
+            "LearningTopics",
+            "Material",
+            "Notes",
+            "ResponsiveLayout",
+            "SafetyConsiderations",
+            "Storyboard"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "aae18db2c3dd",
+          "short": "ES",
+          "name": "Essen",
+          "color": "#BBBBBB",
+          "numberingStyle": "-",
+          "rootSrcId": "34c9513d4e75",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "3c9dfbfa721e",
+          "short": "GS",
+          "name": "Gruppenstunde",
+          "color": "#4DBB52",
+          "numberingStyle": "1",
+          "rootSrcId": "12552915983f",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "Checklist",
+            "ColumnLayout",
+            "LearningObjectives",
+            "LearningTopics",
+            "Material",
+            "Notes",
+            "ResponsiveLayout",
+            "SafetyConsiderations",
+            "Storyboard"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "ed94d59c232b",
+          "short": "RF",
+          "name": "Roter Faden",
+          "color": "#FD7A7A",
+          "numberingStyle": "1",
+          "rootSrcId": "29bff2bd595c",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "Material",
+            "Notes",
+            "ResponsiveLayout",
+            "SafetyConsiderations",
+            "Storyboard",
+            "Storycontext"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "03ff0aa2d5ca",
+          "short": "S",
+          "name": "Sonstiges",
+          "color": "#ECECEC",
+          "numberingStyle": "1",
+          "rootSrcId": "3928bf8df49a",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "Material",
+            "Notes",
+            "ResponsiveLayout",
+            "SafetyConsiderations",
+            "Storyboard",
+            "Storycontext"
+          ],
+          "_derived": true
+        }
+      ],
+      "contentNodes": [
+        {
+          "srcId": "1111e17fe6ee",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "1111e17fe6ee"
+        },
+        {
+          "srcId": "87b0747ac79a",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "1111e17fe6ee",
+          "rootSrcId": "1111e17fe6ee"
+        },
+        {
+          "srcId": "d5dfe1a2a5c1",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "87b0747ac79a",
+          "rootSrcId": "1111e17fe6ee"
+        },
+        {
+          "srcId": "3e9a6f10b936",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "87b0747ac79a",
+          "rootSrcId": "1111e17fe6ee"
+        },
+        {
+          "srcId": "7caf0f65f3d6",
+          "type": "single_texts",
+          "contentTypeName": "LearningObjectives",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "87b0747ac79a",
+          "rootSrcId": "1111e17fe6ee"
+        },
+        {
+          "srcId": "cd21c3c80bc4",
+          "type": "single_texts",
+          "contentTypeName": "LearningTopics",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "87b0747ac79a",
+          "rootSrcId": "1111e17fe6ee"
+        },
+        {
+          "srcId": "ee77cf8cb49b",
+          "type": "checklist_nodes",
+          "contentTypeName": "Checklist",
+          "slot": "aside-top",
+          "position": 2,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "87b0747ac79a",
+          "rootSrcId": "1111e17fe6ee"
+        },
+        {
+          "srcId": "aabdee8d7a81",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "sections": {
+              "e75f3d91-9c72-4f3b-b700-bee4dd48a91b": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "87b0747ac79a",
+          "rootSrcId": "1111e17fe6ee"
+        },
+        {
+          "srcId": "054f6fc0b193",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "87b0747ac79a",
+          "rootSrcId": "1111e17fe6ee"
+        },
+        {
+          "srcId": "78096cbe145a",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "78096cbe145a"
+        },
+        {
+          "srcId": "915da430632b",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "78096cbe145a",
+          "rootSrcId": "78096cbe145a"
+        },
+        {
+          "srcId": "7bb407227e56",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "915da430632b",
+          "rootSrcId": "78096cbe145a"
+        },
+        {
+          "srcId": "16f1432f54d4",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "915da430632b",
+          "rootSrcId": "78096cbe145a"
+        },
+        {
+          "srcId": "a156b7c37083",
+          "type": "single_texts",
+          "contentTypeName": "LearningObjectives",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "915da430632b",
+          "rootSrcId": "78096cbe145a"
+        },
+        {
+          "srcId": "45a5f634b0aa",
+          "type": "single_texts",
+          "contentTypeName": "LearningTopics",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "915da430632b",
+          "rootSrcId": "78096cbe145a"
+        },
+        {
+          "srcId": "0a3e5e8890aa",
+          "type": "checklist_nodes",
+          "contentTypeName": "Checklist",
+          "slot": "aside-top",
+          "position": 2,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "915da430632b",
+          "rootSrcId": "78096cbe145a"
+        },
+        {
+          "srcId": "87093a0e3ba8",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "sections": {
+              "e75f3d91-9c72-4f3b-b700-bee4dd48a91b": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "915da430632b",
+          "rootSrcId": "78096cbe145a"
+        },
+        {
+          "srcId": "926acebab264",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "915da430632b",
+          "rootSrcId": "78096cbe145a"
+        },
+        {
+          "srcId": "34c9513d4e75",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "34c9513d4e75"
+        },
+        {
+          "srcId": "12552915983f",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "12552915983f"
+        },
+        {
+          "srcId": "48ce6c42be29",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "12552915983f",
+          "rootSrcId": "12552915983f"
+        },
+        {
+          "srcId": "0fb94aeac01a",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "48ce6c42be29",
+          "rootSrcId": "12552915983f"
+        },
+        {
+          "srcId": "62e3f7558212",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "48ce6c42be29",
+          "rootSrcId": "12552915983f"
+        },
+        {
+          "srcId": "4f4849003745",
+          "type": "single_texts",
+          "contentTypeName": "LearningObjectives",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "48ce6c42be29",
+          "rootSrcId": "12552915983f"
+        },
+        {
+          "srcId": "4a7c695c0d12",
+          "type": "single_texts",
+          "contentTypeName": "LearningTopics",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "48ce6c42be29",
+          "rootSrcId": "12552915983f"
+        },
+        {
+          "srcId": "fcfec55d2cd7",
+          "type": "checklist_nodes",
+          "contentTypeName": "Checklist",
+          "slot": "aside-top",
+          "position": 2,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "48ce6c42be29",
+          "rootSrcId": "12552915983f"
+        },
+        {
+          "srcId": "54327b26b88b",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "sections": {
+              "e75f3d91-9c72-4f3b-b700-bee4dd48a91b": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "48ce6c42be29",
+          "rootSrcId": "12552915983f"
+        },
+        {
+          "srcId": "8e75eb067bf5",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "48ce6c42be29",
+          "rootSrcId": "12552915983f"
+        },
+        {
+          "srcId": "29bff2bd595c",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "29bff2bd595c"
+        },
+        {
+          "srcId": "30a0b3605d6a",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "29bff2bd595c",
+          "rootSrcId": "29bff2bd595c"
+        },
+        {
+          "srcId": "93ffaa6d473b",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "30a0b3605d6a",
+          "rootSrcId": "29bff2bd595c"
+        },
+        {
+          "srcId": "ce60a48afcdb",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "30a0b3605d6a",
+          "rootSrcId": "29bff2bd595c"
+        },
+        {
+          "srcId": "f2f20562e3b3",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "30a0b3605d6a",
+          "rootSrcId": "29bff2bd595c"
+        },
+        {
+          "srcId": "f377d3521e0c",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "sections": {
+              "e75f3d91-9c72-4f3b-b700-bee4dd48a91b": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "30a0b3605d6a",
+          "rootSrcId": "29bff2bd595c"
+        },
+        {
+          "srcId": "2a7623e19374",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "30a0b3605d6a",
+          "rootSrcId": "29bff2bd595c"
+        },
+        {
+          "srcId": "3928bf8df49a",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "3928bf8df49a"
+        },
+        {
+          "srcId": "999848342f5f",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "06e92520596b",
+          "rootSrcId": "3928bf8df49a"
+        },
+        {
+          "srcId": "82697e6f1f2f",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 1,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "06e92520596b",
+          "rootSrcId": "3928bf8df49a"
+        },
+        {
+          "srcId": "fbb2fad6cc96",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "06e92520596b",
+          "rootSrcId": "3928bf8df49a"
+        },
+        {
+          "srcId": "e9c9dbdc1228",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "sections": {
+              "e75f3d91-9c72-4f3b-b700-bee4dd48a91b": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "06e92520596b",
+          "rootSrcId": "3928bf8df49a"
+        },
+        {
+          "srcId": "6f2a44db3159",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "06e92520596b",
+          "rootSrcId": "3928bf8df49a"
+        },
+        {
+          "srcId": "06e92520596b",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "3928bf8df49a",
+          "rootSrcId": "3928bf8df49a"
+        }
+      ],
+      "materialLists": [
+        {
+          "srcId": "0d8a557eb45e",
+          "name": "Baumarkt"
+        },
+        {
+          "srcId": "73174211edb6",
+          "name": "J+S Material"
+        },
+        {
+          "srcId": "b49069da0f7e",
+          "name": "Lebensmittel"
+        }
+      ],
+      "progressLabels": [
+        {
+          "srcId": "f811cd63e281",
+          "title": "In Planung",
+          "position": 1
+        },
+        {
+          "srcId": "6145bd0d5e14",
+          "title": "Geplant",
+          "position": 2
+        },
+        {
+          "srcId": "c996f06c7a33",
+          "title": "Kursleitung OK",
+          "position": 3
+        },
+        {
+          "srcId": "f57ea865ac05",
+          "title": "LKB OK",
+          "position": 4
+        }
+      ],
+      "checklists": []
+    },
+    {
+      "srcId": "497f974e7d5d",
+      "title": "Camp J+S (français)",
+      "motto": "",
+      "categories": [
+        {
+          "srcId": "b85ba544838b",
+          "short": "AC",
+          "name": "Activités de camp",
+          "color": "#FF9800",
+          "numberingStyle": "1",
+          "rootSrcId": "33d8cac7c219",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "LAThematicArea",
+            "Material",
+            "Notes",
+            "Storyboard",
+            "Storycontext"
+          ]
+        },
+        {
+          "srcId": "6e1cc2c9d44d",
+          "short": "PC",
+          "name": "Programme de camp",
+          "color": "#90B7E4",
+          "numberingStyle": "1",
+          "rootSrcId": "a5d09f5460c3",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "Material",
+            "Notes",
+            "Storyboard",
+            "Storycontext"
+          ]
+        },
+        {
+          "srcId": "3236c849e99d",
+          "short": "R",
+          "name": "Repas",
+          "color": "#BBBBBB",
+          "numberingStyle": "-",
+          "rootSrcId": "6403c48b0a2e",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "Material",
+            "Notes"
+          ]
+        },
+        {
+          "srcId": "37a96aafb9f1",
+          "short": "SC",
+          "name": "Sport de camp",
+          "color": "#4DBB52",
+          "numberingStyle": "1",
+          "rootSrcId": "c29aa1fbad8f",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "Material",
+            "Notes",
+            "SafetyConsiderations",
+            "Storyboard",
+            "Storycontext"
+          ]
+        }
+      ],
+      "contentNodes": [
+        {
+          "srcId": "33d8cac7c219",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "33d8cac7c219"
+        },
+        {
+          "srcId": "094304d6e653",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": "Remarques",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "17f93b611eea",
+          "rootSrcId": "33d8cac7c219"
+        },
+        {
+          "srcId": "48e5f4a29d1a",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": "Histoire",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "17f93b611eea",
+          "rootSrcId": "33d8cac7c219"
+        },
+        {
+          "srcId": "fc9c93c5ca52",
+          "type": "multi_selects",
+          "contentTypeName": "LAThematicArea",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": "Domaine thématique AC",
+          "data": {
+            "options": {
+              "security": {
+                "checked": false
+              },
+              "outdoorTechnique": {
+                "checked": false
+              },
+              "pioneeringTechnique": {
+                "checked": false
+              },
+              "natureAndEnvironment": {
+                "checked": false
+              },
+              "campsiteAndSurroundings": {
+                "checked": false
+              },
+              "preventionAndIntegration": {
+                "checked": false
+              }
+            }
+          },
+          "parentSrcId": "17f93b611eea",
+          "rootSrcId": "33d8cac7c219"
+        },
+        {
+          "srcId": "1c46dd89d9bc",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-top",
+          "position": 2,
+          "instanceName": "Considérations de sécurité",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "17f93b611eea",
+          "rootSrcId": "33d8cac7c219"
+        },
+        {
+          "srcId": "58d624bd2be5",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": "Sections du programme",
+          "data": {
+            "sections": {
+              "9a32f52c-cc2f-42fd-911d-01d6d8d3200a": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "17f93b611eea",
+          "rootSrcId": "33d8cac7c219"
+        },
+        {
+          "srcId": "e98963ac0f5c",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "17f93b611eea",
+          "rootSrcId": "33d8cac7c219"
+        },
+        {
+          "srcId": "17f93b611eea",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "33d8cac7c219",
+          "rootSrcId": "33d8cac7c219"
+        },
+        {
+          "srcId": "a5d09f5460c3",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "a5d09f5460c3"
+        },
+        {
+          "srcId": "db4b3b3f69ba",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "a5d09f5460c3",
+          "rootSrcId": "a5d09f5460c3"
+        },
+        {
+          "srcId": "52b485757f3e",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": "Remarques",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "db4b3b3f69ba",
+          "rootSrcId": "a5d09f5460c3"
+        },
+        {
+          "srcId": "fe4f9890ba68",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": "Considérations de sécurité",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "db4b3b3f69ba",
+          "rootSrcId": "a5d09f5460c3"
+        },
+        {
+          "srcId": "23c1ebcebebc",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": "Histoire",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "db4b3b3f69ba",
+          "rootSrcId": "a5d09f5460c3"
+        },
+        {
+          "srcId": "b05722ecf7a9",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": "Sections du programme",
+          "data": {
+            "sections": {
+              "3588eaa1-b0a2-4f74-a07b-b8c413052680": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "db4b3b3f69ba",
+          "rootSrcId": "a5d09f5460c3"
+        },
+        {
+          "srcId": "92e65cf79542",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "db4b3b3f69ba",
+          "rootSrcId": "a5d09f5460c3"
+        },
+        {
+          "srcId": "6403c48b0a2e",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "6403c48b0a2e"
+        },
+        {
+          "srcId": "d3029d81a65b",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "1",
+          "position": 0,
+          "instanceName": "Remarques",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "6403c48b0a2e",
+          "rootSrcId": "6403c48b0a2e"
+        },
+        {
+          "srcId": "8ffd086f910a",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "1",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "6403c48b0a2e",
+          "rootSrcId": "6403c48b0a2e"
+        },
+        {
+          "srcId": "c29aa1fbad8f",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "c29aa1fbad8f"
+        },
+        {
+          "srcId": "f28bbb91a515",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": "Remarques",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "a48312522a7a",
+          "rootSrcId": "c29aa1fbad8f"
+        },
+        {
+          "srcId": "834f7834700f",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": "Histoire",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "a48312522a7a",
+          "rootSrcId": "c29aa1fbad8f"
+        },
+        {
+          "srcId": "eb16854efd88",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": "Considérations de sécurité",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "a48312522a7a",
+          "rootSrcId": "c29aa1fbad8f"
+        },
+        {
+          "srcId": "3954b2e1735b",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": "Sections du programme",
+          "data": {
+            "sections": {
+              "c03a17c2-6860-4938-80ea-ce4bada1f5ee": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "a48312522a7a",
+          "rootSrcId": "c29aa1fbad8f"
+        },
+        {
+          "srcId": "c87bf71d32b0",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "a48312522a7a",
+          "rootSrcId": "c29aa1fbad8f"
+        },
+        {
+          "srcId": "a48312522a7a",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "c29aa1fbad8f",
+          "rootSrcId": "c29aa1fbad8f"
+        }
+      ],
+      "materialLists": [
+        {
+          "srcId": "0f15a8d26976",
+          "name": "Marché de la construction"
+        },
+        {
+          "srcId": "33243d77a3d3",
+          "name": "Matériel de J+S"
+        },
+        {
+          "srcId": "9da9b0d1fc59",
+          "name": "Produits alimentaires"
+        }
+      ],
+      "progressLabels": [
+        {
+          "srcId": "e675041abcb5",
+          "title": "En cours de planification",
+          "position": 1
+        },
+        {
+          "srcId": "779d4a9d3bd3",
+          "title": "Planifié",
+          "position": 2
+        },
+        {
+          "srcId": "77f2b420c87e",
+          "title": "Chef de camp OK",
+          "position": 3
+        },
+        {
+          "srcId": "98241f9acd20",
+          "title": "Coach OK",
+          "position": 4
+        }
+      ],
+      "checklists": []
+    },
+    {
+      "srcId": "fc8417239f9a",
+      "title": "Course J+S (Français)",
+      "motto": "",
+      "categories": [
+        {
+          "srcId": "62a5b07c2aab",
+          "short": "A",
+          "name": "Autre",
+          "color": "#ECECEC",
+          "numberingStyle": "1",
+          "rootSrcId": "a7f8920d8e0e",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "Material",
+            "Notes",
+            "ResponsiveLayout",
+            "SafetyConsiderations",
+            "Storyboard",
+            "Storycontext"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "48d3968c4b8b",
+          "short": "F",
+          "name": "Formation",
+          "color": "#90B7E4",
+          "numberingStyle": "1",
+          "rootSrcId": "98df351ee7a1",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "Checklist",
+            "ColumnLayout",
+            "LearningObjectives",
+            "LearningTopics",
+            "Material",
+            "Notes",
+            "ResponsiveLayout",
+            "SafetyConsiderations",
+            "Storyboard"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "844c704b9f78",
+          "short": "FR",
+          "name": "Fil rouge",
+          "color": "#FD7A7A",
+          "numberingStyle": "1",
+          "rootSrcId": "2fe595f83b03",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "Material",
+            "Notes",
+            "ResponsiveLayout",
+            "SafetyConsiderations",
+            "Storyboard",
+            "Storycontext"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "5665de8f4b43",
+          "short": "R",
+          "name": "Repas",
+          "color": "#BBBBBB",
+          "numberingStyle": "-",
+          "rootSrcId": "ac64fc7d75fb",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "30becb6bb7b9",
+          "short": "SG",
+          "name": "Séance de groupe",
+          "color": "#4DBB52",
+          "numberingStyle": "1",
+          "rootSrcId": "84de5b80030f",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "Checklist",
+            "ColumnLayout",
+            "LearningObjectives",
+            "LearningTopics",
+            "Material",
+            "Notes",
+            "ResponsiveLayout",
+            "SafetyConsiderations",
+            "Storyboard"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "31aa3462d856",
+          "short": "V",
+          "name": "Vivre le SC/T",
+          "color": "#FF9800",
+          "numberingStyle": "1",
+          "rootSrcId": "1a0eca630d6f",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "Checklist",
+            "ColumnLayout",
+            "LearningObjectives",
+            "LearningTopics",
+            "Material",
+            "Notes",
+            "ResponsiveLayout",
+            "SafetyConsiderations",
+            "Storyboard"
+          ],
+          "_derived": true
+        }
+      ],
+      "contentNodes": [
+        {
+          "srcId": "a7f8920d8e0e",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "a7f8920d8e0e"
+        },
+        {
+          "srcId": "14af24f3a698",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": "Considérations de sécurité",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "506cda623267",
+          "rootSrcId": "a7f8920d8e0e"
+        },
+        {
+          "srcId": "b9431d99e3f5",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 1,
+          "instanceName": "Remarques",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "506cda623267",
+          "rootSrcId": "a7f8920d8e0e"
+        },
+        {
+          "srcId": "25dfdbce6676",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": "Histoire",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "506cda623267",
+          "rootSrcId": "a7f8920d8e0e"
+        },
+        {
+          "srcId": "e0731d2e8033",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": "Sections du programme",
+          "data": {
+            "sections": {
+              "e75f3d91-9c72-4f3b-b700-bee4dd48a91b": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "506cda623267",
+          "rootSrcId": "a7f8920d8e0e"
+        },
+        {
+          "srcId": "5e8a266cbd63",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "506cda623267",
+          "rootSrcId": "a7f8920d8e0e"
+        },
+        {
+          "srcId": "506cda623267",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "a7f8920d8e0e",
+          "rootSrcId": "a7f8920d8e0e"
+        },
+        {
+          "srcId": "98df351ee7a1",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "98df351ee7a1"
+        },
+        {
+          "srcId": "573cf901e726",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": "Considérations de sécurité",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "76e776a71a8b",
+          "rootSrcId": "98df351ee7a1"
+        },
+        {
+          "srcId": "718cf6556268",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 1,
+          "instanceName": "Remarques",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "76e776a71a8b",
+          "rootSrcId": "98df351ee7a1"
+        },
+        {
+          "srcId": "afa275e6949a",
+          "type": "single_texts",
+          "contentTypeName": "LearningObjectives",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": "Objectif",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "76e776a71a8b",
+          "rootSrcId": "98df351ee7a1"
+        },
+        {
+          "srcId": "8650f5988b55",
+          "type": "single_texts",
+          "contentTypeName": "LearningTopics",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": "Contenu du bloc",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "76e776a71a8b",
+          "rootSrcId": "98df351ee7a1"
+        },
+        {
+          "srcId": "a7796bf1c302",
+          "type": "checklist_nodes",
+          "contentTypeName": "Checklist",
+          "slot": "aside-top",
+          "position": 2,
+          "instanceName": "Objectifs d'apprentissage",
+          "data": null,
+          "parentSrcId": "76e776a71a8b",
+          "rootSrcId": "98df351ee7a1"
+        },
+        {
+          "srcId": "1fc2e02baeec",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": "Sections du programme",
+          "data": {
+            "sections": {
+              "e75f3d91-9c72-4f3b-b700-bee4dd48a91b": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "76e776a71a8b",
+          "rootSrcId": "98df351ee7a1"
+        },
+        {
+          "srcId": "3116170b0e5b",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "76e776a71a8b",
+          "rootSrcId": "98df351ee7a1"
+        },
+        {
+          "srcId": "76e776a71a8b",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "98df351ee7a1",
+          "rootSrcId": "98df351ee7a1"
+        },
+        {
+          "srcId": "2fe595f83b03",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "2fe595f83b03"
+        },
+        {
+          "srcId": "47f6d3c6b94d",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "2fe595f83b03",
+          "rootSrcId": "2fe595f83b03"
+        },
+        {
+          "srcId": "a10e0c7c0146",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": "Considérations de sécurité",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "47f6d3c6b94d",
+          "rootSrcId": "2fe595f83b03"
+        },
+        {
+          "srcId": "464dfcf41574",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 1,
+          "instanceName": "Remarques",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "47f6d3c6b94d",
+          "rootSrcId": "2fe595f83b03"
+        },
+        {
+          "srcId": "c4eb359d364a",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": "Histoire",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "47f6d3c6b94d",
+          "rootSrcId": "2fe595f83b03"
+        },
+        {
+          "srcId": "8b1ae8d12d16",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": "Sections du programme",
+          "data": {
+            "sections": {
+              "e75f3d91-9c72-4f3b-b700-bee4dd48a91b": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "47f6d3c6b94d",
+          "rootSrcId": "2fe595f83b03"
+        },
+        {
+          "srcId": "250ca64b1bfd",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "47f6d3c6b94d",
+          "rootSrcId": "2fe595f83b03"
+        },
+        {
+          "srcId": "ac64fc7d75fb",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "ac64fc7d75fb"
+        },
+        {
+          "srcId": "84de5b80030f",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "84de5b80030f"
+        },
+        {
+          "srcId": "e2c286cffc49",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": "Considérations de sécurité",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "30e5c14dcc27",
+          "rootSrcId": "84de5b80030f"
+        },
+        {
+          "srcId": "131b555d0d3d",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 1,
+          "instanceName": "Remarques",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "30e5c14dcc27",
+          "rootSrcId": "84de5b80030f"
+        },
+        {
+          "srcId": "8251463c3f74",
+          "type": "single_texts",
+          "contentTypeName": "LearningObjectives",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": "Objectif",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "30e5c14dcc27",
+          "rootSrcId": "84de5b80030f"
+        },
+        {
+          "srcId": "f4c5ac712dd2",
+          "type": "single_texts",
+          "contentTypeName": "LearningTopics",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": "Contenu du bloc",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "30e5c14dcc27",
+          "rootSrcId": "84de5b80030f"
+        },
+        {
+          "srcId": "bb06a0fea995",
+          "type": "checklist_nodes",
+          "contentTypeName": "Checklist",
+          "slot": "aside-top",
+          "position": 2,
+          "instanceName": "Objectifs d'apprentissage",
+          "data": null,
+          "parentSrcId": "30e5c14dcc27",
+          "rootSrcId": "84de5b80030f"
+        },
+        {
+          "srcId": "09db306dca41",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": "Sections du programme",
+          "data": {
+            "sections": {
+              "e75f3d91-9c72-4f3b-b700-bee4dd48a91b": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "30e5c14dcc27",
+          "rootSrcId": "84de5b80030f"
+        },
+        {
+          "srcId": "ac23ea025cac",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "30e5c14dcc27",
+          "rootSrcId": "84de5b80030f"
+        },
+        {
+          "srcId": "30e5c14dcc27",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "84de5b80030f",
+          "rootSrcId": "84de5b80030f"
+        },
+        {
+          "srcId": "1a0eca630d6f",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "1a0eca630d6f"
+        },
+        {
+          "srcId": "bf61c10563e8",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "1a0eca630d6f",
+          "rootSrcId": "1a0eca630d6f"
+        },
+        {
+          "srcId": "cabfb2b2986e",
+          "type": "single_texts",
+          "contentTypeName": "SafetyConsiderations",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": "Considérations de sécurité",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "bf61c10563e8",
+          "rootSrcId": "1a0eca630d6f"
+        },
+        {
+          "srcId": "45969a740927",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 1,
+          "instanceName": "Remarques",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "bf61c10563e8",
+          "rootSrcId": "1a0eca630d6f"
+        },
+        {
+          "srcId": "c4dd88676657",
+          "type": "single_texts",
+          "contentTypeName": "LearningObjectives",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": "Objectif",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "bf61c10563e8",
+          "rootSrcId": "1a0eca630d6f"
+        },
+        {
+          "srcId": "48844596c68b",
+          "type": "single_texts",
+          "contentTypeName": "LearningTopics",
+          "slot": "aside-top",
+          "position": 1,
+          "instanceName": "Contenu du bloc",
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "bf61c10563e8",
+          "rootSrcId": "1a0eca630d6f"
+        },
+        {
+          "srcId": "a2cc1f65461b",
+          "type": "checklist_nodes",
+          "contentTypeName": "Checklist",
+          "slot": "aside-top",
+          "position": 2,
+          "instanceName": "Objectifs d'apprentissage",
+          "data": null,
+          "parentSrcId": "bf61c10563e8",
+          "rootSrcId": "1a0eca630d6f"
+        },
+        {
+          "srcId": "81af0f6950b5",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": "Sections du programme",
+          "data": {
+            "sections": {
+              "e75f3d91-9c72-4f3b-b700-bee4dd48a91b": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "bf61c10563e8",
+          "rootSrcId": "1a0eca630d6f"
+        },
+        {
+          "srcId": "539f05794670",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "bf61c10563e8",
+          "rootSrcId": "1a0eca630d6f"
+        }
+      ],
+      "materialLists": [
+        {
+          "srcId": "bb753c252d0c",
+          "name": "Baumarkt"
+        },
+        {
+          "srcId": "325a5bc0db87",
+          "name": "J+S Material"
+        },
+        {
+          "srcId": "f5af315be396",
+          "name": "Lebensmittel"
+        },
+        {
+          "srcId": "f22a33659599",
+          "name": "Support"
+        }
+      ],
+      "progressLabels": [
+        {
+          "srcId": "00669a27d8a6",
+          "title": "In Planung",
+          "position": 1
+        },
+        {
+          "srcId": "3118be50408f",
+          "title": "Geplant",
+          "position": 2
+        },
+        {
+          "srcId": "89ef7d214e23",
+          "title": "Kursleitung OK",
+          "position": 3
+        },
+        {
+          "srcId": "17ba71b08629",
+          "title": "LKB OK",
+          "position": 4
+        }
+      ],
+      "checklists": []
+    },
+    {
+      "srcId": "f92fe1cd1ae9",
+      "title": "Basic",
+      "motto": "Basic",
+      "categories": [
+        {
+          "srcId": "38a5dbcf9d5a",
+          "short": "ES",
+          "name": "Essen",
+          "color": "#BBBBBB",
+          "numberingStyle": "-",
+          "rootSrcId": "714413ea63dc",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "Material",
+            "Notes"
+          ],
+          "_derived": true
+        },
+        {
+          "srcId": "e308f0eb1099",
+          "short": "PR",
+          "name": "Programm",
+          "color": "#90B7E4",
+          "numberingStyle": "1",
+          "rootSrcId": "12d742a2041b",
+          "rootType": "column_layouts",
+          "contentTypeNames": [
+            "ColumnLayout",
+            "Material",
+            "Notes",
+            "Storyboard",
+            "Storycontext"
+          ]
+        }
+      ],
+      "contentNodes": [
+        {
+          "srcId": "714413ea63dc",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "714413ea63dc"
+        },
+        {
+          "srcId": "a1e289ed40b9",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "714413ea63dc",
+          "rootSrcId": "714413ea63dc"
+        },
+        {
+          "srcId": "3a4d46d9fa60",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "1",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "714413ea63dc",
+          "rootSrcId": "714413ea63dc"
+        },
+        {
+          "srcId": "12d742a2041b",
+          "type": "column_layouts",
+          "contentTypeName": "ColumnLayout",
+          "slot": null,
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "columns": [
+              {
+                "slot": "1",
+                "width": 12
+              }
+            ]
+          },
+          "parentSrcId": null,
+          "rootSrcId": "12d742a2041b"
+        },
+        {
+          "srcId": "4a27a6ff4020",
+          "type": "responsive_layouts",
+          "contentTypeName": "ResponsiveLayout",
+          "slot": "1",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "items": [
+              {
+                "slot": "main"
+              },
+              {
+                "slot": "aside-top"
+              },
+              {
+                "slot": "aside-bottom"
+              }
+            ]
+          },
+          "parentSrcId": "12d742a2041b",
+          "rootSrcId": "12d742a2041b"
+        },
+        {
+          "srcId": "48c9ff0d436b",
+          "type": "single_texts",
+          "contentTypeName": "Notes",
+          "slot": "aside-bottom",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "4a27a6ff4020",
+          "rootSrcId": "12d742a2041b"
+        },
+        {
+          "srcId": "3d8fedce90a4",
+          "type": "single_texts",
+          "contentTypeName": "Storycontext",
+          "slot": "aside-top",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "html": ""
+          },
+          "parentSrcId": "4a27a6ff4020",
+          "rootSrcId": "12d742a2041b"
+        },
+        {
+          "srcId": "15ec9dc82bf1",
+          "type": "storyboards",
+          "contentTypeName": "Storyboard",
+          "slot": "main",
+          "position": 0,
+          "instanceName": null,
+          "data": {
+            "sections": {
+              "15c7ef17-a372-4086-980c-8d55357c7307": {
+                "column1": "",
+                "column3": "",
+                "position": 0,
+                "column2Html": ""
+              }
+            }
+          },
+          "parentSrcId": "4a27a6ff4020",
+          "rootSrcId": "12d742a2041b"
+        },
+        {
+          "srcId": "da24d1e5f128",
+          "type": "material_nodes",
+          "contentTypeName": "Material",
+          "slot": "main",
+          "position": 1,
+          "instanceName": null,
+          "data": null,
+          "parentSrcId": "4a27a6ff4020",
+          "rootSrcId": "12d742a2041b"
+        }
+      ],
+      "materialLists": [
+        {
+          "srcId": "46ac7f708d13",
+          "name": "Baumarkt"
+        },
+        {
+          "srcId": "547e41c893d5",
+          "name": "Detailhandel"
+        }
+      ],
+      "progressLabels": [
+        {
+          "srcId": "848639a3542f",
+          "title": "In Planung",
+          "position": 1
+        },
+        {
+          "srcId": "f0aaa1a52eb0",
+          "title": "Planung abgeschlossen",
+          "position": 2
+        }
+      ],
+      "checklists": []
+    }
+  ]
+}
