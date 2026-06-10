@@ -46,14 +46,10 @@ class UriTemplateNormalizer implements NormalizerInterface {
             $result['_links'][$pluralRel] = $linkObject;
         }
 
-        $result['_links']['login'] = ['href' => $this->urlGenerator->generate('authentication_token')];
-        $result['_links']['oauthGoogle'] = ['href' => $this->urlGenerator->generate('connect_google_start').'{?callback}', 'templated' => true];
-        $result['_links']['oauthPbsmidata'] = ['href' => $this->urlGenerator->generate('connect_pbsmidata_start').'{?callback}', 'templated' => true];
-        $result['_links']['oauthCevidb'] = ['href' => $this->urlGenerator->generate('connect_cevidb_start').'{?callback}', 'templated' => true];
-        $result['_links']['oauthJubladb'] = ['href' => $this->urlGenerator->generate('connect_jubladb_start').'{?callback}', 'templated' => true];
+        // Login is OIDC-only: password login, registration and the other OAuth providers
+        // are disabled, so only the OIDC entry point and the token refresh are advertised.
+        $result['_links']['oauthOidc'] = ['href' => $this->urlGenerator->generate('connect_oidc_start').'{?callback}', 'templated' => true];
         $result['_links']['refreshToken'] = ['href' => $this->urlGenerator->generate('api_refresh_token')];
-        $result['_links']['resetPassword'] = ['href' => $this->urlGenerator->generate('_api_/auth/reset_password{._format}_post').'{/id}', 'templated' => true];
-        $result['_links']['resendActivation'] = ['href' => $this->urlGenerator->generate('_api_/auth/resend_activation{._format}_post'), 'templated' => false];
 
         return $result;
     }

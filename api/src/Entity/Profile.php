@@ -128,6 +128,13 @@ class Profile extends BaseEntity {
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     public ?string $jubladbId = null;
 
+    /**
+     * Subject identifier ("sub" claim) of the user on the configured generic OIDC provider.
+     */
+    #[ApiProperty(readable: false, writable: false)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    public ?string $oidcId = null;
+
     // ========================= end trusted Oauth provider ids =========================
 
     /**

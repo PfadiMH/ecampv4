@@ -31,14 +31,8 @@ class UriTemplateNormalizerTest extends TestCase {
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $urlGenerator->method('generate')->willReturnCallback(function (string $arg): string {
             return match ($arg) {
-                'authentication_token' => '/authentication_token',
-                'connect_google_start' => '/auth/google',
-                'connect_pbsmidata_start' => '/auth/pbsmidata',
-                'connect_cevidb_start' => '/auth/cevidb',
-                'connect_jubladb_start' => '/auth/jubladb',
+                'connect_oidc_start' => '/auth/oidc',
                 'api_refresh_token' => '/token/refresh',
-                '_api_/auth/resend_activation{._format}_post' => '/auth/resend_activation',
-                '_api_/auth/reset_password{._format}_post' => '/auth/reset_password',
                 default => null,
             };
         });
@@ -50,32 +44,10 @@ class UriTemplateNormalizerTest extends TestCase {
             $urlGenerator,
         );
 
+        // Login is OIDC-only: only the OIDC entry point and the token refresh are advertised.
         $this->loginAndOauthLinks = [
-            'login' => [
-                'href' => '/authentication_token',
-            ],
-            'oauthGoogle' => [
-                'href' => '/auth/google{?callback}',
-                'templated' => true,
-            ],
-            'oauthPbsmidata' => [
-                'href' => '/auth/pbsmidata{?callback}',
-                'templated' => true,
-            ],
-            'oauthCevidb' => [
-                'href' => '/auth/cevidb{?callback}',
-                'templated' => true,
-            ],
-            'oauthJubladb' => [
-                'href' => '/auth/jubladb{?callback}',
-                'templated' => true,
-            ],
-            'resendActivation' => [
-                'href' => '/auth/resend_activation',
-                'templated' => false,
-            ],
-            'resetPassword' => [
-                'href' => '/auth/reset_password{/id}',
+            'oauthOidc' => [
+                'href' => '/auth/oidc{?callback}',
                 'templated' => true,
             ],
             'refreshToken' => [

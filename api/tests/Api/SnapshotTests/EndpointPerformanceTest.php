@@ -236,13 +236,7 @@ class EndpointPerformanceTest extends ECampApiTestCase {
             // @noinspection PhpDuplicateMatchArmBodyInspection
             return match ($endpoint) {
                 '/' => false,
-                '/authentication_token' => false,
-                '/auth/google' => false,
-                '/auth/pbsmidata' => false,
-                '/auth/cevidb' => false,
-                '/auth/jubladb' => false,
-                '/auth/reset_password' => false,
-                '/auth/resend_activation' => false,
+                '/auth/oidc' => false,
                 '/content_nodes' => false,
                 '/checklist_items' => false,
                 '/invitations' => false,

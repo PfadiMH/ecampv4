@@ -15,6 +15,42 @@ docker compose exec php bin/console lexik:jwt:generate-token test@example.com --
 The token must then be split and sent in two cookies to the API. The header and payload (from `ey` until before the second period `.`) must be sent in a cookie named `[api-domain]_jwt_hp`. The signature (everything after the second period `.`) must be sent in a cookie called `[api-domain]_jwt_s` (replace [api-domain] with the domain where the API is served, e.g. `localhost_jwt_hp` or `pr1234.ecamp3.ch_jwt_s`).
 See https://jwt.io for more info on the structure of JWT tokens, and https://medium.com/lightrail/getting-token-authentication-right-in-a-stateless-single-page-application-57d0c6474e3 for more info on why this split cookie approach is a good idea for SPAs.
 
+### Collaboration roles & permissions
+
+Every person in a camp is a `CampCollaboration` with one of the following roles. The role
+is stored as a plain string (see `CampCollaboration::VALID_ROLES`) and decides what the
+person is allowed to do. Access is enforced by `CampRoleVoter` and the `is_granted(...)`
+security expressions on the API resources.
+
+| Role          | German label (UI) | Read camp | Edit camp content<br>(activity content, materials, …) | Move / retime activities<br>(schedule entries) | Change "Verantwortliche"<br>(activity & day responsibles) | Camp administration<br>(settings, roles, sharing) |
+| ------------- | ----------------- | :-------: | :---------------------------------------------------: | :--------------------------------------------: | :-------------------------------------------------------: | :-----------------------------------------------: |
+| `guest`       | Gast              |    ✅     |                          ❌                           |                       ❌                       |                            ❌                             |                        ❌                         |
+| `contributor` | Helfer/in         |    ✅     |                          ✅                           |                       ❌                       |                            ❌                             |                        ❌                         |
+| `member`      | Mitglied          |    ✅     |                          ✅                           |                       ✅                       |                            ✅                             |                        ❌                         |
+| `manager`     | Administration    |    ✅     |                          ✅                           |                       ✅                       |                            ✅                             |                        ✅                         |
+
+A **`contributor`** behaves like a **`member`** (read & write access to the camp content),
+with two intentional exceptions. Contributors are **not** allowed to:
+
+1. change who is responsible for an activity or a day (the "Verantwortliche"), or
+2. change the timing/position of a schedule entry, i.e. move activities around in the
+   schedule.
+
+Each restriction is implemented with a dedicated voter attribute, granted to `member` and
+`manager` only:
+
+- `CAMP_MANAGE_RESPONSIBLES` guards the `POST` and `DELETE` operations of
+  `ActivityResponsible` and `DayResponsible`.
+- `CAMP_MANAGE_SCHEDULE_ENTRIES` guards the `PATCH` operation of `ScheduleEntry` (the move /
+  resize / reschedule). Contributors can still create and delete schedule entries (e.g. when
+  creating or removing an activity), they just cannot reschedule existing ones.
+
+Everywhere else, the `contributor` role is granted through the regular `CAMP_MEMBER`
+attribute, so it inherits all other member rights automatically.
+
+There must always be at least one `manager` per camp (enforced by
+`AssertContainsAtLeastOneManager`).
+
 ### Code quality
 
 We are using the following toolchain to ensure code quality standards:

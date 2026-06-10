@@ -602,6 +602,7 @@
     },
     "changeLanguage": "Change language",
     "collaborationAbilities": {
+      "contributor": "Read & write, cannot change responsibles",
       "guest": "Read-only",
       "manager": "Read, write & camp management",
       "member": "Read & write"

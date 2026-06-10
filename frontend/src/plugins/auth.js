@@ -180,6 +180,10 @@ async function redirectToOAuthLogin(provider) {
     })
 }
 
+async function loginOidc() {
+  return redirectToOAuthLogin('oauthOidc')
+}
+
 async function loginGoogle() {
   return redirectToOAuthLogin('oauthGoogle')
 }
@@ -223,6 +227,7 @@ export const auth = {
   isAdmin,
   login,
   register,
+  loginOidc,
   loginGoogle,
   loginPbsMiData,
   loginCeviDB,
