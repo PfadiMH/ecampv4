@@ -1,5 +1,0 @@
-.env
-/deploy.sh
-/values.yaml
-/values.yaml.gotmpl
-/env.yaml
