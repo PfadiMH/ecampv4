@@ -122,7 +122,6 @@ class ImportTemplatesCommand extends Command {
 
             $camp = new Camp();
             $camp->title = $tpl['title'];
-            $camp->name = mb_substr($tpl['title'], 0, 32);
             $camp->motto = $tpl['motto'] ?? null;
             $camp->isPrototype = true;
             $camp->isPublic = true;

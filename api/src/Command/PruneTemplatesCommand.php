@@ -62,7 +62,6 @@ class PruneTemplatesCommand extends Command {
                 $io->writeln(($force ? 'RENAME ' : 'would rename ')."\"{$camp->title}\" -> \"{$new}\"");
                 // Apply in memory so the keep-check below sees the new title; only --force flushes.
                 $camp->title = $new;
-                $camp->name = mb_substr($new, 0, 32);
             }
         }
 
