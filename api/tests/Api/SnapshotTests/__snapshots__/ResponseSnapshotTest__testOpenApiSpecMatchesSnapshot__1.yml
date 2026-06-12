@@ -25146,14 +25146,52 @@ components:
               $ref: '#/components/schemas/Activity'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User'
         camp:
           $ref: '#/components/schemas/Camp'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25168,6 +25206,36 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment'
+            -
+              type: 'null'
+        resolved:
+          description: |-
+            Virtual, write-only flag used to resolve (true) or reopen (false) a thread
+            via PATCH. The CommentUpdateProcessor translates it into resolvedAt/resolvedBy.
+          example: true
+          type:
+            - boolean
+            - 'null'
+          writeOnly: true
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25175,6 +25243,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-create_write:
@@ -25188,10 +25257,35 @@ components:
               $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-create_write.jsonMergePatch'
         camp:
           $ref: '#/components/schemas/Camp-create_write.jsonMergePatch'
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-create_write'
+            -
+              type: 'null'
         orphanDescription:
           description: 'Persisted description of the context where the comment was originally writen.'
           example: Sportolympiade
@@ -25200,6 +25294,12 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-create_write.jsonMergePatch'
+            -
+              type: 'null'
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25209,6 +25309,66 @@ components:
         - camp
         - textHtml
       type: object
+    Comment-create_write.jsonMergePatch:
+      description: |-
+        A Comment someone left on an activity, to give feedback on the planned programme,
+        for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        activity:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Activity-create_write.jsonMergePatch'
+            -
+              type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        author:
+          $ref: '#/components/schemas/User-create_write.jsonMergePatch'
+        camp:
+          $ref: '#/components/schemas/Camp-create_write.jsonMergePatch'
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-create_write'
+            -
+              type: 'null'
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-create_write.jsonMergePatch'
+            -
+              type: 'null'
+        textHtml:
+          description: 'The actual comment.'
+          example: 'This activity is great!'
+          maxLength: 1024
+          type: string
+      type: object
     Comment-read:
       properties:
         activity:
@@ -25217,14 +25377,52 @@ components:
               $ref: '#/components/schemas/Activity-read'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read'
         camp:
           $ref: '#/components/schemas/Camp-read'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25239,6 +25437,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25246,6 +25465,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
@@ -25256,14 +25476,52 @@ components:
               $ref: '#/components/schemas/Activity-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
         camp:
           $ref: '#/components/schemas/Camp-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25278,6 +25536,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25285,6 +25564,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
@@ -25295,14 +25575,52 @@ components:
               $ref: '#/components/schemas/Activity-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
         camp:
           $ref: '#/components/schemas/Camp-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25317,6 +25635,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25324,6 +25663,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
@@ -25334,14 +25674,52 @@ components:
               $ref: '#/components/schemas/Activity-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
         camp:
           $ref: '#/components/schemas/Camp-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25356,6 +25734,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25363,6 +25762,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-read_CampCollaboration.Camp_CampCollaboration.User:
@@ -25373,14 +25773,52 @@ components:
               $ref: '#/components/schemas/Activity-read_CampCollaboration.Camp_CampCollaboration.User'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read_CampCollaboration.Camp_CampCollaboration.User'
         camp:
           $ref: '#/components/schemas/Camp-read_CampCollaboration.Camp_CampCollaboration.User'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read_CampCollaboration.Camp_CampCollaboration.User'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25395,6 +25833,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25402,6 +25861,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-read_CampCollaboration.User:
@@ -25412,14 +25872,52 @@ components:
               $ref: '#/components/schemas/Activity-read_CampCollaboration.User'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read_CampCollaboration.User'
         camp:
           $ref: '#/components/schemas/Camp-read_CampCollaboration.User'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read_CampCollaboration.User'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read_CampCollaboration.User'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25434,6 +25932,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read_CampCollaboration.User'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read_CampCollaboration.User'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25441,6 +25960,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-read_Category.PreferredContentTypes:
@@ -25451,14 +25971,52 @@ components:
               $ref: '#/components/schemas/Activity-read_Category.PreferredContentTypes'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read_Category.PreferredContentTypes'
         camp:
           $ref: '#/components/schemas/Camp-read_Category.PreferredContentTypes'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read_Category.PreferredContentTypes'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read_Category.PreferredContentTypes'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25473,6 +26031,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read_Category.PreferredContentTypes'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read_Category.PreferredContentTypes'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25480,6 +26059,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-read_Category.PreferredContentTypes_Category.ContentNodes:
@@ -25490,14 +26070,52 @@ components:
               $ref: '#/components/schemas/Activity-read_Category.PreferredContentTypes_Category.ContentNodes'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read_Category.PreferredContentTypes_Category.ContentNodes'
         camp:
           $ref: '#/components/schemas/Camp-read_Category.PreferredContentTypes_Category.ContentNodes'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read_Category.PreferredContentTypes_Category.ContentNodes'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read_Category.PreferredContentTypes_Category.ContentNodes'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25512,6 +26130,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read_Category.PreferredContentTypes_Category.ContentNodes'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read_Category.PreferredContentTypes_Category.ContentNodes'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25519,6 +26158,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-read_Day.DayResponsibles:
@@ -25529,14 +26169,52 @@ components:
               $ref: '#/components/schemas/Activity-read_Day.DayResponsibles'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read_Day.DayResponsibles'
         camp:
           $ref: '#/components/schemas/Camp-read_Day.DayResponsibles'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read_Day.DayResponsibles'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read_Day.DayResponsibles'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25551,6 +26229,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read_Day.DayResponsibles'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read_Day.DayResponsibles'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25558,6 +26257,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-read_Period.Camp_Period.Days:
@@ -25568,14 +26268,52 @@ components:
               $ref: '#/components/schemas/Activity-read_Period.Camp_Period.Days'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read_Period.Camp_Period.Days'
         camp:
           $ref: '#/components/schemas/Camp-read_Period.Camp_Period.Days'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read_Period.Camp_Period.Days'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25590,6 +26328,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25597,6 +26356,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment-read_ScheduleEntry.Activity:
@@ -25607,14 +26367,52 @@ components:
               $ref: '#/components/schemas/Activity-read_ScheduleEntry.Activity'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User-read_ScheduleEntry.Activity'
         camp:
           $ref: '#/components/schemas/Camp-read_ScheduleEntry.Activity'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment-read_ScheduleEntry.Activity'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25629,6 +26427,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25636,7 +26455,44 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
+      type: object
+    Comment-update.jsonMergePatch:
+      description: |-
+        A Comment someone left on an activity, to give feedback on the planned programme,
+        for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-update'
+            -
+              type: 'null'
+        resolved:
+          description: |-
+            Virtual, write-only flag used to resolve (true) or reopen (false) a thread
+            via PATCH. The CommentUpdateProcessor translates it into resolvedAt/resolvedBy.
+          example: true
+          type:
+            - boolean
+            - 'null'
+          writeOnly: true
+        textHtml:
+          description: 'The actual comment.'
+          example: 'This activity is great!'
+          maxLength: 1024
+          type: string
       type: object
     Comment.html-read:
       properties:
@@ -25646,14 +26502,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read'
         camp:
           $ref: '#/components/schemas/Camp.html-read'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25668,6 +26562,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25675,6 +26590,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
@@ -25685,14 +26601,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
         camp:
           $ref: '#/components/schemas/Camp.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25707,6 +26661,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25714,6 +26689,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
@@ -25724,14 +26700,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
         camp:
           $ref: '#/components/schemas/Camp.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25746,6 +26760,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25753,6 +26788,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
@@ -25763,14 +26799,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
         camp:
           $ref: '#/components/schemas/Camp.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25785,6 +26859,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25792,6 +26887,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.html-read_CampCollaboration.Camp_CampCollaboration.User:
@@ -25802,14 +26898,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read_CampCollaboration.Camp_CampCollaboration.User'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read_CampCollaboration.Camp_CampCollaboration.User'
         camp:
           $ref: '#/components/schemas/Camp.html-read_CampCollaboration.Camp_CampCollaboration.User'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read_CampCollaboration.Camp_CampCollaboration.User'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25824,6 +26958,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25831,6 +26986,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.html-read_CampCollaboration.User:
@@ -25841,14 +26997,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read_CampCollaboration.User'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read_CampCollaboration.User'
         camp:
           $ref: '#/components/schemas/Camp.html-read_CampCollaboration.User'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read_CampCollaboration.User'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read_CampCollaboration.User'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25863,6 +27057,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read_CampCollaboration.User'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read_CampCollaboration.User'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25870,6 +27085,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.html-read_Category.PreferredContentTypes:
@@ -25880,14 +27096,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read_Category.PreferredContentTypes'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read_Category.PreferredContentTypes'
         camp:
           $ref: '#/components/schemas/Camp.html-read_Category.PreferredContentTypes'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read_Category.PreferredContentTypes'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read_Category.PreferredContentTypes'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25902,6 +27156,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read_Category.PreferredContentTypes'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read_Category.PreferredContentTypes'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25909,6 +27184,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.html-read_Category.PreferredContentTypes_Category.ContentNodes:
@@ -25919,14 +27195,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read_Category.PreferredContentTypes_Category.ContentNodes'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read_Category.PreferredContentTypes_Category.ContentNodes'
         camp:
           $ref: '#/components/schemas/Camp.html-read_Category.PreferredContentTypes_Category.ContentNodes'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read_Category.PreferredContentTypes_Category.ContentNodes'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read_Category.PreferredContentTypes_Category.ContentNodes'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25941,6 +27255,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read_Category.PreferredContentTypes_Category.ContentNodes'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read_Category.PreferredContentTypes_Category.ContentNodes'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25948,6 +27283,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.html-read_Day.DayResponsibles:
@@ -25958,14 +27294,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read_Day.DayResponsibles'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read_Day.DayResponsibles'
         camp:
           $ref: '#/components/schemas/Camp.html-read_Day.DayResponsibles'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read_Day.DayResponsibles'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read_Day.DayResponsibles'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -25980,6 +27354,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read_Day.DayResponsibles'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read_Day.DayResponsibles'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -25987,6 +27382,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.html-read_Period.Camp_Period.Days:
@@ -25997,14 +27393,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read_Period.Camp_Period.Days'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read_Period.Camp_Period.Days'
         camp:
           $ref: '#/components/schemas/Camp.html-read_Period.Camp_Period.Days'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read_Period.Camp_Period.Days'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -26019,6 +27453,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -26026,6 +27481,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.html-read_ScheduleEntry.Activity:
@@ -26036,14 +27492,52 @@ components:
               $ref: '#/components/schemas/Activity.html-read_ScheduleEntry.Activity'
             -
               type: 'null'
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
         author:
           $ref: '#/components/schemas/User.html-read_ScheduleEntry.Activity'
         camp:
           $ref: '#/components/schemas/Camp.html-read_ScheduleEntry.Activity'
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.html-read_ScheduleEntry.Activity'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.html-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
         createTime:
           format: date-time
           readOnly: true
           type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
         id:
           description: 'An internal, unique, randomly generated identifier of this entity.'
           example: 1a2b3c4d
@@ -26058,6 +27552,27 @@ components:
           type:
             - 'null'
             - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.html-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.html-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
+          readOnly: true
         textHtml:
           description: 'The actual comment.'
           example: 'This activity is great!'
@@ -26065,6 +27580,7 @@ components:
           type: string
       required:
         - camp
+        - children
         - textHtml
       type: object
     Comment.jsonapi:
@@ -26083,6 +27599,14 @@ components:
                   properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } }
                 camp:
                   properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } }
+                children:
+                  properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } }
+                contentNode:
+                  properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } }
+                parent:
+                  properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } }
+                resolvedBy:
+                  properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } }
               type: object
             type:
               type: string
@@ -26096,10 +27620,17 @@ components:
             url: 'https://jsonapi.org/format/#fetching-includes'
           items:
             anyOf:
+              - []
               -
                 $ref: '#/components/schemas/Activity.jsonapi'
               -
                 $ref: '#/components/schemas/Camp.jsonapi'
+              -
+                $ref: '#/components/schemas/Comment.jsonapi'
+              -
+                $ref: '#/components/schemas/Comment.jsonapi'
+              -
+                $ref: '#/components/schemas/User.jsonapi'
               -
                 $ref: '#/components/schemas/User.jsonapi'
           readOnly: true
@@ -26149,24 +27680,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26174,11 +27687,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read'
+            -
+              type: 'null'
+          readOnly: true
     Comment.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries:
       allOf:
         -
@@ -26195,24 +27787,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26220,11 +27794,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries'
+            -
+              type: 'null'
+          readOnly: true
     Comment.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes:
       allOf:
         -
@@ -26241,24 +27894,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26266,11 +27901,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read_Activity.Category_Activity.ActivityProgressLabel_Activity.ActivityResponsibles_Activity.ScheduleEntries_Activity.ContentNodes'
+            -
+              type: 'null'
+          readOnly: true
     Comment.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User:
       allOf:
         -
@@ -26287,24 +28001,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26312,11 +28008,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read_Camp.Periods_Period.Days_Camp.CampCollaborations_CampCollaboration.User'
+            -
+              type: 'null'
+          readOnly: true
     Comment.jsonld-read_CampCollaboration.Camp_CampCollaboration.User:
       allOf:
         -
@@ -26333,24 +28108,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26358,11 +28115,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.Camp_CampCollaboration.User'
+            -
+              type: 'null'
+          readOnly: true
     Comment.jsonld-read_CampCollaboration.User:
       allOf:
         -
@@ -26379,24 +28215,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.User'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read_CampCollaboration.User'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26404,11 +28222,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read_CampCollaboration.User'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read_CampCollaboration.User'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read_CampCollaboration.User'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read_CampCollaboration.User'
+            -
+              type: 'null'
+          readOnly: true
     Comment.jsonld-read_Category.PreferredContentTypes:
       allOf:
         -
@@ -26425,24 +28322,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_Category.PreferredContentTypes'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read_Category.PreferredContentTypes'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26450,11 +28329,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read_Category.PreferredContentTypes'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read_Category.PreferredContentTypes'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read_Category.PreferredContentTypes'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read_Category.PreferredContentTypes'
+            -
+              type: 'null'
+          readOnly: true
     Comment.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes:
       allOf:
         -
@@ -26471,24 +28429,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26496,11 +28436,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes'
+            -
+              type: 'null'
+          readOnly: true
     Comment.jsonld-read_Day.DayResponsibles:
       allOf:
         -
@@ -26517,24 +28536,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_Day.DayResponsibles'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read_Day.DayResponsibles'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26542,11 +28543,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read_Day.DayResponsibles'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read_Day.DayResponsibles'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read_Day.DayResponsibles'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read_Day.DayResponsibles'
+            -
+              type: 'null'
+          readOnly: true
     Comment.jsonld-read_Period.Camp_Period.Days:
       allOf:
         -
@@ -26563,24 +28643,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_Period.Camp_Period.Days'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read_Period.Camp_Period.Days'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26588,11 +28650,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read_Period.Camp_Period.Days'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read_Period.Camp_Period.Days'
+            -
+              type: 'null'
+          readOnly: true
     Comment.jsonld-read_ScheduleEntry.Activity:
       allOf:
         -
@@ -26609,24 +28750,6 @@ components:
               $ref: '#/components/schemas/User.jsonld-read_ScheduleEntry.Activity'
             camp:
               $ref: '#/components/schemas/Camp.jsonld-read_ScheduleEntry.Activity'
-            createTime:
-              format: date-time
-              readOnly: true
-              type: string
-            id:
-              description: 'An internal, unique, randomly generated identifier of this entity.'
-              example: 1a2b3c4d
-              maxLength: 16
-              readOnly: true
-              type: string
-            orphanDescription:
-              description: 'Persisted description of the context where the comment was originally writen.'
-              example: Sportolympiade
-              maxLength: 32
-              readOnly: true
-              type:
-                - 'null'
-                - string
             textHtml:
               description: 'The actual comment.'
               example: 'This activity is great!'
@@ -26634,11 +28757,90 @@ components:
               type: string
           required:
             - camp
+            - children
             - textHtml
           type: object
       description: |-
         A Comment someone left on an activity, to give feedback on the planned programme,
         for notes which are only relevant during camp planning, or for other communication.
+      properties:
+        anchorId:
+          description: |-
+            The id of the TipTap comment mark (span[data-comment-id]) in the content node's
+            rich text that anchors this thread. Null for plain activity-level comments.
+          example: c1a2b3c4d5e6
+          maxLength: 36
+          type:
+            - 'null'
+            - string
+        anchorText:
+          description: |-
+            A plain-text snapshot of the text this thread was anchored to, taken when the
+            comment was created. Shown as a quote in the comments panel and used to
+            re-anchor the thread when its mark got lost (e.g. through concurrent edits).
+          example: 'the sentence that was commented on'
+          maxLength: 255
+          type:
+            - 'null'
+            - string
+        children:
+          items:
+            $ref: '#/components/schemas/Comment.jsonld-read_ScheduleEntry.Activity'
+          readOnly: true
+          type: array
+        contentNode:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode.jsonld-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
+        createTime:
+          format: date-time
+          readOnly: true
+          type: string
+        editedAt:
+          description: 'When the comment text was last edited after posting, or null if never.'
+          example: '2022-01-02T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        id:
+          description: 'An internal, unique, randomly generated identifier of this entity.'
+          example: 1a2b3c4d
+          maxLength: 16
+          readOnly: true
+          type: string
+        orphanDescription:
+          description: 'Persisted description of the context where the comment was originally writen.'
+          example: Sportolympiade
+          maxLength: 32
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/Comment.jsonld-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
+        resolvedAt:
+          description: 'When the thread was resolved, or null if it is still open.'
+          example: '2022-01-01T00:00:00+00:00'
+          format: date-time
+          readOnly: true
+          type:
+            - 'null'
+            - string
+        resolvedBy:
+          anyOf:
+            -
+              $ref: '#/components/schemas/User.jsonld-read_ScheduleEntry.Activity'
+            -
+              type: 'null'
+          readOnly: true
     ConstraintViolation:
       description: 'Unprocessable entity'
       properties:
@@ -26812,6 +29014,56 @@ components:
         - contentType
         - position
         - root
+      type: object
+    ContentNode-create_write:
+      properties:
+        contentType:
+          $ref: '#/components/schemas/ContentType-create_write'
+        data:
+          description: 'Holds the actual data of the content node.'
+          example:
+            text: 'dummy text'
+          items:
+            type:
+              - 'null'
+              - string
+          type:
+            - array
+            - 'null'
+        instanceName:
+          description: |-
+            An optional name for this content node. This is useful when planning e.g. an alternative
+            version of the programme suited for bad weather, in addition to the normal version.
+          example: Schlechtwetterprogramm
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+        parent:
+          anyOf:
+            -
+              $ref: '#/components/schemas/ContentNode-create_write'
+            -
+              type: 'null'
+        position:
+          default: -1
+          description: |-
+            A whole number used for ordering multiple content nodes that are in the same slot of the
+            same parent. The API does not guarantee the uniqueness of parent+slot+position.
+          example: '0'
+          type: integer
+        slot:
+          description: |-
+            The name of the slot in the parent in which this content node resides. The valid slot names
+            are defined by the content type of the parent.
+          example: '1'
+          maxLength: 32
+          type:
+            - 'null'
+            - string
+      required:
+        - contentType
+        - position
       type: object
     ContentNode-read:
       properties:
@@ -27582,6 +29834,8 @@ components:
         - contentType
         - position
         - root
+      type: object
+    ContentNode-update:
       type: object
     ContentNode-write:
       properties:
@@ -29001,9 +31255,6 @@ components:
         -
           $ref: '#/components/schemas/HydraItemBaseSchema'
         -
-          properties:
-            root:
-              $ref: '#/components/schemas/ColumnLayout.jsonld-read_Category.PreferredContentTypes'
           required:
             - children
             - contentType
@@ -29068,6 +31319,8 @@ components:
             same parent. The API does not guarantee the uniqueness of parent+slot+position.
           example: '0'
           type: integer
+        root:
+          $ref: '#/components/schemas/ColumnLayout.jsonld-read_Category.PreferredContentTypes'
         slot:
           description: |-
             The name of the slot in the parent in which this content node resides. The valid slot names
@@ -29082,9 +31335,6 @@ components:
         -
           $ref: '#/components/schemas/HydraItemBaseSchema'
         -
-          properties:
-            root:
-              $ref: '#/components/schemas/ColumnLayout.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes'
           required:
             - children
             - contentType
@@ -29149,6 +31399,8 @@ components:
             same parent. The API does not guarantee the uniqueness of parent+slot+position.
           example: '0'
           type: integer
+        root:
+          $ref: '#/components/schemas/ColumnLayout.jsonld-read_Category.PreferredContentTypes_Category.ContentNodes'
         slot:
           description: |-
             The name of the slot in the parent in which this content node resides. The valid slot names
@@ -53576,7 +55828,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { $ref: '#/components/schemas/Comment' }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { $ref: '#/components/schemas/Comment' }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, children: { properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } } }, contentNode: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, parent: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, resolvedBy: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array } }, type: object }
                 description: 'Comment.jsonapi collection.'
             text/html:
               schema:
@@ -57479,7 +59731,7 @@ paths:
               schema:
                 allOf:
                   - { $ref: '#/components/schemas/JsonApiCollectionBaseSchemaNoPagination' }
-                  - { properties: { data: { items: { properties: { attributes: { $ref: '#/components/schemas/Comment' }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array } }, type: object }
+                  - { properties: { data: { items: { properties: { attributes: { $ref: '#/components/schemas/Comment' }, id: { type: string }, relationships: { properties: { activity: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, author: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, camp: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, children: { properties: { data: { items: { properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, type: array } } }, contentNode: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, parent: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } }, resolvedBy: { properties: { data: { oneOf: [{ properties: { id: { format: iri-reference, type: string }, type: { type: string } }, type: object }, { type: 'null' }] } } } }, type: object }, type: { type: string } }, required: [id, type], type: object }, type: array } }, type: object }
                 description: 'Comment.jsonapi collection.'
             text/html:
               schema:
@@ -57682,6 +59934,105 @@ paths:
           description: 'Not found'
           links: []
       summary: 'Retrieves a Comment resource.'
+      tags:
+        - Comment
+    patch:
+      description: 'Updates the Comment resource.'
+      operationId: api_comments_id_patch
+      parameters:
+        -
+          deprecated: false
+          description: 'Comment identifier'
+          explode: false
+          in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          style: simple
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/Comment-update.jsonMergePatch'
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/Comment-update.jsonMergePatch'
+        description: 'The updated Comment resource'
+        required: true
+      responses:
+        200:
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/Comment.jsonhal-read'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment-read'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Comment.jsonld-read'
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Comment.jsonapi'
+            text/html:
+              schema:
+                $ref: '#/components/schemas/Comment.html-read'
+          description: 'Comment resource updated'
+          links: []
+        400:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Invalid input'
+          links: []
+        403:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Forbidden
+          links: []
+        404:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/Error.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: 'Not found'
+          links: []
+        422:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+            application/ld+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation.jsonld'
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ConstraintViolation'
+          description: 'An error occurred'
+          links: []
+      summary: 'Updates the Comment resource.'
       tags:
         - Comment
   /content_node/checklist_nodes:
