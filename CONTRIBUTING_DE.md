@@ -160,10 +160,34 @@ Um die Entwicklung zu vereinfachen und Konsistenz in lokalen Umgebungen zu gewä
 bieten wir einen vordefinierten Datensatz an, der als 'Dev-Daten' bekannt ist.
 Dieser Datensatz ist darauf ausgerichtet, dass wir beim Entwickeln immer eine breite Palette an realistischen Daten sowie einige bekannte Randfälle zur Verfügung haben.
 
-### Empfohlener Testbenutzer :bust_in_silhouette:
+### Lokal einloggen (Mock-OIDC) :key:
 
-Um dich in Entwicklungsumgebungen wie [localhost:3000](http://localhost:3000) einzuloggen, verwende die Benutzerdaten `test@example.com / test`.
-Dieser Benutzer wurde mit einer umfassenden Sammlung von Lagern ausgestattet, die für das Testen der meisten Funktionen und Szenarien ausreichen sollten.
+Der Login von eCamp v3 läuft ausschliesslich über OpenID Connect (OIDC). Damit du
+lokal keinen echten Identity Provider brauchst, enthält der Docker-Compose-Stack
+einen **Mock-OIDC-Provider** ([mock-oauth2-server](https://github.com/navikt/mock-oauth2-server)),
+mit dem du dich als beliebiger Testbenutzer einloggen kannst.
+
+Öffne nach `docker compose up` [localhost:3000](http://localhost:3000) und klicke auf
+**Login**. Du gelangst auf eine kleine Auswahlseite, auf der du einen Testbenutzer
+wählst; Standard ist `test@example.com` (ein Lagerleiter mit einer umfassenden
+Sammlung von Lagern, die für das Testen der meisten Funktionen ausreichen sollte).
+
+So ist es aufgebaut (alles nur für die Entwicklung):
+
+- **Service:** der `mock-oidc`-Service in [`docker-compose.override.yml`](./docker-compose.override.yml),
+  veröffentlicht auf Host-Port **9001** (9000 ist der containerinterne Port).
+- **Konfiguration & Auswahlseite:** [`infra/mock-oidc/`](./infra/mock-oidc/) — `config.json`
+  aktiviert den interaktiven Login, `login.html` listet die Testbenutzer. Um weitere
+  Testbenutzer hinzuzufügen, ergänze dort ein `<form>` mit dem `email`-Claim des
+  gewünschten Kontos (die API ordnet den OIDC-`email`-Claim dem eCamp-Benutzer zu).
+- **API-Umgebungsvariablen:** die `OIDC_*`-Variablen am `api`-Service in der Override-Datei.
+  Die Authorize-URL zeigt auf `localhost:9001` (dein Browser öffnet sie), während die
+  Token-/Userinfo-URLs den internen Namen `mock-oidc:9000` verwenden (die API ruft sie
+  serverseitig auf).
+
+> :information_source: Dieses Setup ist ausschliesslich für die lokale Entwicklung. In
+> der Produktion wird über dieselben `OIDC_*`-Umgebungsvariablen ein echter OIDC-Provider
+> konfiguriert.
 
 ### Rückmeldungen zu den Testdaten :loudspeaker:
 

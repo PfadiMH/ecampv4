@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>eCamp3 — Dev Login</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f5f5f7;
+      }
+      .card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem;
+        width: 100%;
+        max-width: 26rem;
+      }
+      h1 {
+        margin: 0 0 0.25rem;
+        font-size: 1.5rem;
+      }
+      p.subtitle {
+        margin: 0 0 1.75rem;
+        color: #666;
+        font-size: 0.9rem;
+      }
+      .role {
+        display: block;
+        margin-bottom: 0.75rem;
+      }
+      .role:last-child {
+        margin-bottom: 0;
+      }
+      .role button {
+        width: 100%;
+        padding: 1rem 1.25rem;
+        border: 1px solid #e5e5e5;
+        border-radius: 8px;
+        background: white;
+        cursor: pointer;
+        text-align: left;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: all 0.15s ease;
+      }
+      .role button:hover {
+        border-color: #999;
+        background: #fafafa;
+        transform: translateY(-1px);
+      }
+      .role strong {
+        display: block;
+        font-size: 1rem;
+        color: #111;
+      }
+      .role span {
+        display: block;
+        font-size: 0.8rem;
+        color: #666;
+        margin-top: 0.2rem;
+      }
+      .footer {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+        font-size: 0.75rem;
+        color: #999;
+        text-align: center;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #18181b;
+        }
+        .card {
+          background: #27272a;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+        h1 {
+          color: #fafafa;
+        }
+        p.subtitle,
+        .footer {
+          color: #a1a1aa;
+        }
+        .role button {
+          background: #3f3f46;
+          border-color: #52525b;
+          color: #fafafa;
+        }
+        .role button:hover {
+          background: #52525b;
+          border-color: #71717a;
+        }
+        .role strong {
+          color: #fafafa;
+        }
+        .role span {
+          color: #a1a1aa;
+        }
+        .footer {
+          border-color: #3f3f46;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>eCamp3</h1>
+      <p class="subtitle">Mock OIDC login — pick a seeded test user</p>
+
+      <!-- The mock matches eCamp3 users by the `email` claim. `username` becomes
+           the OIDC subject (sub), persisted as the profile's oidcId on first login. -->
+
+      <form method="post" class="role">
+        <input type="hidden" name="username" value="dev-test" />
+        <input
+          type="hidden"
+          name="claims"
+          value='{"email":"test@example.com","given_name":"Robert","family_name":"Baden-Powell"}'
+        />
+        <button type="submit">
+          <strong>Robert Baden-Powell</strong>
+          <span>test@example.com — camp manager (default)</span>
+        </button>
+      </form>
+
+      <form method="post" class="role">
+        <input type="hidden" name="username" value="dev-admin" />
+        <input
+          type="hidden"
+          name="claims"
+          value='{"email":"admin@example.com","given_name":"Admi","family_name":"Nistrator"}'
+        />
+        <button type="submit">
+          <strong>Admi Nistrator</strong>
+          <span>admin@example.com — site admin</span>
+        </button>
+      </form>
+
+      <form method="post" class="role">
+        <input type="hidden" name="username" value="dev-castor" />
+        <input
+          type="hidden"
+          name="claims"
+          value='{"email":"castor@example.com","given_name":"Hans","family_name":"Muster"}'
+        />
+        <button type="submit">
+          <strong>Hans Muster</strong>
+          <span>castor@example.com — collaborator</span>
+        </button>
+      </form>
+
+      <form method="post" class="role">
+        <input type="hidden" name="username" value="dev-bruce" />
+        <input
+          type="hidden"
+          name="claims"
+          value='{"email":"bruce@wayne.com","given_name":"Bruce","family_name":"Wayne"}'
+        />
+        <button type="submit">
+          <strong>Bruce Wayne</strong>
+          <span>bruce@wayne.com — collaborator</span>
+        </button>
+      </form>
+
+      <div class="footer">mock-oauth2-server · dev only</div>
+    </div>
+  </body>
+</html>

@@ -164,10 +164,36 @@ we provide a predefined dataset known as 'Dev-Data'.
 This dataset is tailored to streamline the testing process and ensure that features,
 including edge cases, are effectively covered.
 
-### Recommended Test User :bust_in_silhouette:
+### Logging in locally (mock OIDC) :key:
 
-To login on dev environments like [localhost:3000](http://localhost:3000) utilize the `test@example.com / test` user credentials.
-This user has been populated with a comprehensive set of camps that should suffice for testing most features and scenarios.
+eCamp v3 login is OpenID Connect (OIDC) only. So that you don't need a real
+identity provider to develop locally, the Docker Compose stack ships a **mock
+OIDC provider** ([mock-oauth2-server](https://github.com/navikt/mock-oauth2-server))
+that lets you sign in as any seeded test user.
+
+After `docker compose up`, open [localhost:3000](http://localhost:3000) and click
+**Login**. You'll be sent to a small chooser page where you pick a test user; the
+default is `test@example.com` (a camp manager populated with a comprehensive set
+of camps that should suffice for testing most features and scenarios).
+
+How it is wired up (all dev-only):
+
+- **Service:** the `mock-oidc` service in [`docker-compose.override.yml`](./docker-compose.override.yml),
+  published on host port **9001** (9000 is the container-internal port).
+- **Config & chooser page:** [`infra/mock-oidc/`](./infra/mock-oidc/) — `config.json`
+  enables the interactive login, and `login.html` lists the test users. To add more
+  test users, add a `<form>` there with the seeded account's `email` claim (the API
+  matches the OIDC `email` claim to the eCamp user).
+- **API env vars:** the `OIDC_*` variables on the `api` service in the override file.
+  The authorize URL points at `localhost:9001` (your browser opens it), while the
+  token/userinfo URLs use the in-network `mock-oidc:9000` (the API calls them
+  server-side).
+
+> :information_source: This whole setup is for local development only. Production uses
+> a real OIDC provider configured via the same `OIDC_*` environment variables.
+
+If you instead need to talk to the API directly without a browser, see
+[generating a JWT token](./api/README.md) in the API README.
 
 ### Feedback on Dev-Data :loudspeaker:
 

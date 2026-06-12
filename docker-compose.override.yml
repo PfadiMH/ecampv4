@@ -27,4 +27,29 @@ services:
       PHP_IDE_CONFIG: serverName=localhost
       PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT:-500M}
       PERFORMANCE_TEST_DEBUG_OUTPUT: ${PERFORMANCE_TEST_DEBUG_OUTPUT:-}
+      # Local dev OIDC login via the mock-oauth2-server below.
+      # The authorize URL is opened in the browser, so it must be reachable from
+      # the host (localhost:9000). The token + userinfo URLs are called by the
+      # API server-side, so they use the in-network service name (mock-oidc:9000).
+      OIDC_AUTHORIZE_URL: http://localhost:9001/default/authorize
+      OIDC_TOKEN_URL: http://mock-oidc:9000/default/token
+      OIDC_USERINFO_URL: http://mock-oidc:9000/default/userinfo
+      OIDC_CLIENT_ID: ecamp3-dev
+      OIDC_CLIENT_SECRET: dev-secret
     user: ${USER_ID:-1000}
+
+  # Mock OpenID Connect provider for local dev login. eCamp3 login is OIDC-only;
+  # this lets you sign in as a seeded test user without a real identity provider.
+  # The login page (infra/mock-oidc/login.html) lists the test users; the chosen
+  # user's `email` claim is matched to the seeded eCamp3 account.
+  mock-oidc:
+    image: ghcr.io/navikt/mock-oauth2-server:2.3.0
+    restart: unless-stopped
+    ports:
+      # Host 9001 to avoid colliding with other local mock-oidc stacks on 9000.
+      - '9001:9000'
+    environment:
+      SERVER_PORT: '9000'
+      JSON_CONFIG_PATH: /app/config/config.json
+    volumes:
+      - ./infra/mock-oidc:/app/config:ro
