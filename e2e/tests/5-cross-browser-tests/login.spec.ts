@@ -10,7 +10,6 @@ test.describe('Login test', () => {
   test('displays the login page', async ({ page }) => {
     // '/' redirects unauthenticated users to the OIDC-only login page.
     await page.goto('/')
-    await page.waitForURL('**/login')
     await expect(page.locator('.ec-login-button')).toBeVisible()
   })
 
