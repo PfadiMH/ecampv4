@@ -1,0 +1,36 @@
+# CI-only overlay for the end-to-end test stack.
+#
+# eCamp3 login is OIDC-only, so CI needs an identity provider for the e2e suite to
+# authenticate against. This mirrors the local-dev mock-oidc setup from
+# docker-compose.override.yml, but without the dev build target / source mounts —
+# CI runs the prebuilt images. Apply it alongside docker-compose.yml:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.ci.yml up -d ... mock-oidc
+services:
+  api:
+    environment:
+      # The authorize URL is opened in the browser. The e2e container runs on the
+      # host network, so the browser reaches the provider on the published port.
+      OIDC_AUTHORIZE_URL: http://localhost:9001/default/authorize
+      # The token + userinfo URLs are called by the API server-side, so they use
+      # the in-network service name.
+      OIDC_TOKEN_URL: http://mock-oidc:9000/default/token
+      OIDC_USERINFO_URL: http://mock-oidc:9000/default/userinfo
+      OIDC_CLIENT_ID: ecamp3-dev
+      OIDC_CLIENT_SECRET: dev-secret
+
+  # Mock OpenID Connect provider. The login page (infra/mock-oidc/login.html) lists
+  # the seeded test users; the chosen user's `email` claim is matched to the seeded
+  # eCamp3 account. See docker-compose.override.yml for the dev equivalent.
+  mock-oidc:
+    image: ghcr.io/navikt/mock-oauth2-server:2.3.0
+    container_name: 'ecamp3-mock-oidc'
+    restart: unless-stopped
+    ports:
+      # Host 9001 to match the browser-facing OIDC_AUTHORIZE_URL above.
+      - '9001:9000'
+    environment:
+      SERVER_PORT: '9000'
+      JSON_CONFIG_PATH: /app/config/config.json
+    volumes:
+      - ./infra/mock-oidc:/app/config:ro
