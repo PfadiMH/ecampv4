@@ -60,10 +60,7 @@
           "numberingStyle": "-",
           "rootSrcId": "7b41e3aff0e5",
           "rootType": "column_layouts",
-          "contentTypeNames": [
-            "Material",
-            "Notes"
-          ]
+          "contentTypeNames": ["Material", "Notes"]
         },
         {
           "srcId": "b41d284199c2",
@@ -1360,10 +1357,7 @@
           "numberingStyle": "-",
           "rootSrcId": "6403c48b0a2e",
           "rootType": "column_layouts",
-          "contentTypeNames": [
-            "Material",
-            "Notes"
-          ]
+          "contentTypeNames": ["Material", "Notes"]
         },
         {
           "srcId": "37a96aafb9f1",

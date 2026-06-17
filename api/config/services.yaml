@@ -125,7 +125,7 @@ services:
         class: App\OAuth\UrlGeneratorDecorator
         arguments:
             - '@Symfony\Component\Routing\Generator\UrlGeneratorInterface'
-            - '%kernel.environment%'
+            - '%env(bool:COOKIE_SECURE)%'
 
     knpu.oauth2.provider_factory:
         class: KnpU\OAuth2ClientBundle\DependencyInjection\ProviderFactory

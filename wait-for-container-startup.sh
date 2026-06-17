@@ -20,3 +20,10 @@ do
   sleep 2
 done
 echo "Frontend container is ready."
+
+echo "Waiting for mock OIDC provider to start up..."
+until curl --output /dev/null --silent --fail http://localhost:9001/default/.well-known/openid-configuration
+do
+  sleep 2
+done
+echo "Mock OIDC provider is ready."

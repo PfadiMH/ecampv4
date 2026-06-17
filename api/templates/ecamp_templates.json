@@ -60,10 +60,7 @@
           "numberingStyle": "-",
           "rootSrcId": "7b41e3aff0e5",
           "rootType": "column_layouts",
-          "contentTypeNames": [
-            "Material",
-            "Notes"
-          ]
+          "contentTypeNames": ["Material", "Notes"]
         },
         {
           "srcId": "b41d284199c2",
@@ -618,9 +615,7 @@
           "numberingStyle": "-",
           "rootSrcId": "34c9513d4e75",
           "rootType": "column_layouts",
-          "contentTypeNames": [
-            "ColumnLayout"
-          ],
+          "contentTypeNames": ["ColumnLayout"],
           "_derived": true
         },
         {
@@ -1414,10 +1409,7 @@
           "numberingStyle": "-",
           "rootSrcId": "6403c48b0a2e",
           "rootType": "column_layouts",
-          "contentTypeNames": [
-            "Material",
-            "Notes"
-          ]
+          "contentTypeNames": ["Material", "Notes"]
         },
         {
           "srcId": "37a96aafb9f1",
@@ -1956,9 +1948,7 @@
           "numberingStyle": "-",
           "rootSrcId": "ac64fc7d75fb",
           "rootType": "column_layouts",
-          "contentTypeNames": [
-            "ColumnLayout"
-          ],
+          "contentTypeNames": ["ColumnLayout"],
           "_derived": true
         },
         {
@@ -2706,11 +2696,7 @@
           "numberingStyle": "-",
           "rootSrcId": "714413ea63dc",
           "rootType": "column_layouts",
-          "contentTypeNames": [
-            "ColumnLayout",
-            "Material",
-            "Notes"
-          ],
+          "contentTypeNames": ["ColumnLayout", "Material", "Notes"],
           "_derived": true
         },
         {

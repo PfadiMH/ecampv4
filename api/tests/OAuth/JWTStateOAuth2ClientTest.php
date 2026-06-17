@@ -63,7 +63,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
             $providerMock,
             $requestStackMock,
             'test_prefix_',
-            'prod',
+            true, // cookieSecure
             $jwtEncoderMock,
             $entityManagerMock,
             $repositoryMock,
@@ -99,7 +99,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
             $providerMock,
             $requestStackMock,
             'test_prefix_',
-            'prod',
+            true, // cookieSecure
             $jwtEncoderMock,
             $entityManagerMock,
             $repositoryMock,
@@ -149,7 +149,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
             $providerMock,
             $requestStackMock,
             'test_prefix_',
-            'prod',
+            true, // cookieSecure
             $jwtEncoderMock,
             $entityManagerMock,
             $repositoryMock,
@@ -194,7 +194,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
             $providerMock,
             $requestStackMock,
             'test_prefix_',
-            'prod',
+            true, // cookieSecure
             $jwtEncoderMock,
             $entityManagerMock,
             $repositoryMock,
@@ -239,7 +239,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
             $providerMock,
             $requestStackMock,
             'test_prefix_',
-            'prod',
+            true, // cookieSecure
             $jwtEncoderMock,
             $entityManagerMock,
             $repositoryMock,
@@ -285,7 +285,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
             $providerMock,
             $requestStackMock,
             'test_prefix_',
-            'prod',
+            true, // cookieSecure
             $jwtEncoderMock,
             $entityManagerMock,
             $repositoryMock,
@@ -331,7 +331,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
             $providerMock,
             $requestStackMock,
             'test_prefix_',
-            'prod',
+            true, // cookieSecure
             $jwtEncoderMock,
             $entityManagerMock,
             $repositoryMock,
@@ -380,7 +380,7 @@ class JWTStateOAuth2ClientTest extends TestCase {
             $providerMock,
             $requestStackMock,
             'test_prefix_',
-            'prod',
+            true, // cookieSecure
             $jwtEncoderMock,
             $entityManagerMock,
             $repositoryMock,

@@ -37,7 +37,9 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
         AbstractProvider $provider,
         private readonly RequestStack $requestStack,
         private readonly string $cookiePrefix,
-        private readonly string $appEnv,
+        // Whether cookies are served over https (COOKIE_SECURE); over http
+        // (dev / e2e) the state cookie must not be Secure or the browser drops it.
+        private readonly bool $cookieSecure,
         private readonly JWTEncoderInterface $jwtEncoder,
         private readonly EntityManagerInterface $entityManager,
         private readonly OAuthStateRepository $stateRepository,
@@ -81,7 +83,7 @@ class JWTStateOAuth2Client extends OAuth2Client implements OAuth2ClientInterface
                     ])))
                     ->withHttpOnly()
                     ->withSameSite('lax')
-                    ->withSecure('dev' !== $this->appEnv) // in local development, we don't use https
+                    ->withSecure($this->cookieSecure) // over http (dev / e2e) the cookie must not be Secure
                     ->withExpires($expires)
             );
         } catch (JWTEncodeFailureException) {

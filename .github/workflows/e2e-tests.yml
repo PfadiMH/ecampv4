@@ -11,8 +11,6 @@ on:
         default: 10
   pull_request:
     types: [opened, labeled, unlabeled, synchronize]
-  schedule:
-    - cron: '42 4 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref_name }}

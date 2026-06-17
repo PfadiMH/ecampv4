@@ -3,9 +3,22 @@
 #   /api/*  -> api service   (prefix stripped; the API serves at root)
 #   /print* -> print service (prefix kept)
 #   /*      -> frontend service (static SPA)
+#
+# The upstreams use Railway Serverless (sleep when idle) to save cost. A request
+# to a slept service wakes it (Railway wakes on private-network traffic), but the
+# service refuses connections for a few seconds during cold boot. Without retries
+# Caddy returns a 502 to that first visitor. lb_try_duration/lb_try_interval make
+# Caddy keep retrying while the upstream boots, so the first request just waits a
+# few seconds instead of failing. Subsequent requests are served normally.
 {
 	admin off
 	auto_https off
+}
+
+# Retry a cold-booting (sleeping) upstream instead of 502ing the first request.
+(wake_retry) {
+	lb_try_duration 30s
+	lb_try_interval 1s
 }
 
 :{$PORT} {
@@ -13,6 +26,7 @@
 	# so force https downstream for correct secure cookies and redirect URIs.
 	handle_path /api/* {
 		reverse_proxy {$API_UPSTREAM} {
+			import wake_retry
 			header_up X-Forwarded-Proto https
 			# The API serves at root but is exposed under /api; tell Symfony so it
 			# generates correct absolute URLs (e.g. the OAuth/OIDC redirect_uri).
@@ -23,11 +37,14 @@
 	@print path /print /print/*
 	handle @print {
 		reverse_proxy {$PRINT_UPSTREAM} {
+			import wake_retry
 			header_up X-Forwarded-Proto https
 		}
 	}
 
 	handle {
-		reverse_proxy {$FRONTEND_UPSTREAM}
+		reverse_proxy {$FRONTEND_UPSTREAM} {
+			import wake_retry
+		}
 	}
 }

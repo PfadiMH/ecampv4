@@ -24,7 +24,7 @@ class JWTOAuthStateCompilerPass implements CompilerPassInterface {
             }
 
             $definition->addArgument('%env(COOKIE_PREFIX)%');
-            $definition->addArgument('%kernel.environment%');
+            $definition->addArgument('%env(bool:COOKIE_SECURE)%');
             $definition->addArgument(new Reference(JWTEncoderInterface::class));
             $definition->addArgument(new Reference(EntityManagerInterface::class));
             $definition->addArgument(new Reference(OAuthStateRepository::class));

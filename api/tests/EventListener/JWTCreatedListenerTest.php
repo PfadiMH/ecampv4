@@ -48,7 +48,11 @@ class JWTCreatedListenerTest extends TestCase {
         // then
         $event->expects($this->once())
             ->method('setData')
-            ->with(['user' => '/users/1a2b3c4dtest'])
+            ->with($this->callback(function (array $data) {
+                return '/users/1a2b3c4dtest' === $data['user']
+                    && is_string($data['jti'] ?? null)
+                    && '' !== $data['jti'];
+            }))
         ;
 
         // when

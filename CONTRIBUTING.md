@@ -189,7 +189,7 @@ How it is wired up (all dev-only):
   token/userinfo URLs use the in-network `mock-oidc:9000` (the API calls them
   server-side).
 
-> :information_source: This whole setup is for local development only. Production uses
+> ℹ️ This whole setup is for local development only. Production uses
 > a real OIDC provider configured via the same `OIDC_*` environment variables.
 
 If you instead need to talk to the API directly without a browser, see

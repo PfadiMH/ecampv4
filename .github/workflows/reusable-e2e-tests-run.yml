@@ -60,22 +60,23 @@ jobs:
           setfacl -dR -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt
         working-directory: api
 
-      - run: docker compose up --wait -d database
+      - run: docker compose -f docker-compose.yml -f docker-compose.ci.yml up --wait -d database
 
-      - run: docker compose -f docker-compose.yml run --rm api migrate-database
+      - run: docker compose -f docker-compose.yml -f docker-compose.ci.yml run --rm api migrate-database
 
-      # start necessary containers
-      - run: docker compose -f docker-compose.yml up -d api frontend pdf print browserless database docker-host http-cache http-cache-logs mail pg-admin reverse-proxy
+      # start necessary containers (mock-oidc provides the OIDC identity provider
+      # for the OIDC-only login flow, see docker-compose.ci.yml)
+      - run: docker compose -f docker-compose.yml -f docker-compose.ci.yml up -d api frontend pdf print browserless database docker-host http-cache http-cache-logs mail pg-admin reverse-proxy mock-oidc
 
       # pull playwright while container are starting up
-      - run: docker compose pull e2e
+      - run: docker compose -f docker-compose.yml -f docker-compose.ci.yml pull e2e
 
-      - run: docker compose run --entrypoint="npm ci" --rm e2e
+      - run: docker compose -f docker-compose.yml -f docker-compose.ci.yml run --entrypoint="npm ci" --rm e2e
 
       - run: sh -x wait-for-container-startup.sh
 
       - run: >
-          docker compose --profile e2e run 
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml --profile e2e run
           -e CI=true 
           -e PLAYWRIGHT_BLOB_OUTPUT_NAME=report-${{ matrix.browser }}${{ inputs.run-identifier != '' && format('-{0}', inputs.run-identifier) || '' }}.zip 
           --rm e2e npx playwright test --project ${{ matrix.browser }}

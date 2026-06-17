@@ -85,7 +85,7 @@ test.describe('cache test: /periods/{periodId}/scheduleEntries', () => {
     await waitForCacheMiss(castorApi, uri)
     await expectCacheHit(castorApi, uri)
 
-    await expectCacheMiss(bipiApi, uri)
+    await waitForCacheMiss(bipiApi, uri)
   })
 
   test('invalidates /periods/{periodId}/schedule_entries for new scheduleEntry', async () => {

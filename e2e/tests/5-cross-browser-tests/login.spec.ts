@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { mockDateNow } from '@/utils/helpers'
+import { loginAndSetCookie, mockDateNow } from '@/utils/helpers'
+import { bipiUser } from '@/utils/constants'
 
 test.describe('Login test', () => {
   test.beforeEach(async ({ page }) => {
@@ -7,23 +8,13 @@ test.describe('Login test', () => {
   })
 
   test('displays the login page', async ({ page }) => {
+    // '/' redirects unauthenticated users to the OIDC-only login page.
     await page.goto('/')
-    await expect(page.locator('body')).toContainText('Login')
-    await expect(page.locator('body')).toContainText(
-      'This is the development version of eCamp v3.'
-    )
-    await expect(page.locator('body')).toContainText('Register now')
+    await expect(page.locator('.ec-login-button')).toBeVisible()
   })
 
   test('can login with default user', async ({ page }) => {
-    await page.goto('/')
-
-    await page.locator('[type="email"]').fill('test@example.com')
-    await page.locator('[type="password"]').fill('test')
-    await Promise.all([
-      page.locator('[type="submit"]').click(),
-      page.waitForURL('/camps', { timeout: 60000 }),
-    ])
+    await loginAndSetCookie(page, null, bipiUser)
 
     await expect(page.locator('body')).toContainText('Meine Lager')
     await expect(page.locator('body')).toContainText('GRGR')

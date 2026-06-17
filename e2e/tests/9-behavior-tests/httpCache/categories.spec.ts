@@ -86,7 +86,7 @@ test.describe('cache test: /camps/{campId}/categories', () => {
     await waitForCacheMiss(felicityApi, uri)
     await expectCacheHit(felicityApi, uri)
 
-    await expectCacheMiss(bruceApi, uri)
+    await waitForCacheMiss(bruceApi, uri)
   })
 
   test('invalidates /camps/{campId}/categories for new category', async () => {
