@@ -185,7 +185,7 @@ So ist es aufgebaut (alles nur für die Entwicklung):
   Token-/Userinfo-URLs den internen Namen `mock-oidc:9000` verwenden (die API ruft sie
   serverseitig auf).
 
-> :information_source: Dieses Setup ist ausschliesslich für die lokale Entwicklung. In
+> ℹ️ Dieses Setup ist ausschliesslich für die lokale Entwicklung. In
 > der Produktion wird über dieselben `OIDC_*`-Umgebungsvariablen ein echter OIDC-Provider
 > konfiguriert.
 
