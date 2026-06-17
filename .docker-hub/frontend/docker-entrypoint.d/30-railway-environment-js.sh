@@ -28,6 +28,7 @@ window.environment = {
   RECAPTCHA_SITE_KEY: $(jsstr "${RECAPTCHA_SITE_KEY:-}"),
   FEATURE_DEVELOPER: $(bool "${FEATURE_DEVELOPER:-false}"),
   FEATURE_CHECKLIST: $(bool "${FEATURE_CHECKLIST:-false}"),
+  FEATURE_COMMENTS: $(bool "${FEATURE_COMMENTS:-true}"),
   LOGIN_INFO_TEXT_KEY: '${LOGIN_INFO_TEXT_KEY:-prod}',
 }
 EOF
