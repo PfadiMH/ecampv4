@@ -170,7 +170,7 @@ class UpdateUserTest extends ECampApiTestCase {
         ]);
     }
 
-    public function testPatchUserCanLoginWithNewPasswordAfterChangingPassword() {
+    public function testPatchUserPasswordChangeDoesNotEnablePasswordLogin() {
         $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'password' => 'passwordpassword',
@@ -178,15 +178,15 @@ class UpdateUserTest extends ECampApiTestCase {
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
 
-        // the new password works
+        // Password login stays disabled even after a password change (OIDC-only).
         static::createBasicClient()->request('POST', '/authentication_token', ['json' => [
             'identifier' => $user->getEmail(),
             'password' => 'passwordpassword',
         ]]);
-        $this->assertResponseStatusCodeSame(204);
-        $this->assertResponseHasHeader('Set-Cookie');
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertResponseNotHasHeader('Set-Cookie');
 
-        // the old password no longer works
+        // The old password cannot bypass OIDC either.
         static::createBasicClient()->request('POST', '/authentication_token', ['json' => [
             'identifier' => $user->getEmail(),
             'password' => 'test',
