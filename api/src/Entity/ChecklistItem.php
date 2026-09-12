@@ -74,16 +74,32 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'filter_by_current_user' => false,
             ]
         ),
+        new GetCollection(
+            uriTemplate: self::CHECKLISTNODE_SUBRESOURCE_URI_TEMPLATE,
+            uriVariables: [
+                'checklistNodeId' => new Link(
+                    toProperty: 'checklistNodes',
+                    fromClass: ChecklistNode::class,
+                    security: 'is_granted("CAMP_IS_PUBLIC", checklistNodes) or
+                               is_granted("CAMP_COLLABORATOR", checklistNodes)'
+                ),
+            ],
+            forceEager: false,
+            extraProperties: [
+                'filter_by_current_user' => false,
+            ]
+        ),
     ],
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
     order: ['checklist.id', 'id'],
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['checklist', 'checklist.camp', 'checklistNodes'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['checklist', 'checklist.camp'])]
 #[ORM\Entity(repositoryClass: ChecklistItemRepository::class)]
 #[ORM\UniqueConstraint(name: 'checklistitem_checklistid_parentid_position_unique', columns: ['checklistid', 'parentid', 'position'])]
 class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFromPrototypeInterface, HasParentInterface {
     public const CHECKLIST_SUBRESOURCE_URI_TEMPLATE = '/checklists/{checklistId}/checklist_items{._format}';
+    public const CHECKLISTNODE_SUBRESOURCE_URI_TEMPLATE = '/content_node/checklist_nodes/{checklistNodeId}/checklist_items{._format}';
     public const MAX_NESTING_DEPTH = 3;
 
     /**
@@ -152,8 +168,8 @@ class ChecklistItem extends BaseEntity implements BelongsToCampInterface, CopyFr
     public ?string $text = null;
 
     /**
-     * A whole number used for ordering multiple checklist items that are in the same parent.
-     * The API does not guarantee the uniqueness of parent+position.
+     * A whole number used for ordering multiple checklist items that are in the same
+     * parent. The API does not guarantee the uniqueness of parent+position.
      */
     #[ApiProperty(example: '0')]
     #[Gedmo\SortablePosition]

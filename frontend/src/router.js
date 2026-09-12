@@ -4,6 +4,11 @@ import { isAdmin, isLoggedIn } from '@/plugins/auth'
 import { apiStore } from '@/plugins/store'
 import { campShortTitle } from '@/common/helpers/campShortTitle'
 import { getEnv } from '@/environment.js'
+import {
+  clearChunkReloadGuard,
+  reloadOnChunkLoadError,
+} from '@/helpers/chunkLoadError.js'
+import * as Sentry from '@sentry/browser'
 
 const NavigationAuth = () => import('./views/auth/NavigationAuth.vue')
 const NavigationDefault = () => import('./views/NavigationDefault.vue')
@@ -550,6 +555,14 @@ const router = createRouter({
     },
   ],
 })
+router.onError((error, to) => {
+  Sentry.captureMessage('Chunk load failed after deployment')
+  reloadOnChunkLoadError(error, to)
+})
+
+router.afterEach(() => {
+  clearChunkReloadGuard()
+})
 
 export default router
 
@@ -753,6 +766,13 @@ export function periodFromRoute(route) {
     return undefined
   }
   return apiStore.get().periods({ id: route.params.periodId })
+}
+
+export function activityFromRoute(route) {
+  if (!route.params.activityId) {
+    return undefined
+  }
+  return apiStore.get().activities({ id: route.params.activityId })
 }
 
 function categoryFromRoute(route) {

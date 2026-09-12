@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { loginAndSetCookie, mockDateNow } from '@/utils/helpers'
 import { bipiUser } from '@/utils/constants'
 
-test.describe('Login test', () => {
+test.describe('Login test', { tag: '@mature' }, () => {
   test.beforeEach(async ({ page }) => {
     await mockDateNow(page)
   })

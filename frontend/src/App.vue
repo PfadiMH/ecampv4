@@ -9,6 +9,8 @@
       <router-view />
     </v-main>
 
+    <CommentsPanel v-if="featureComments" />
+
     <FooterSharedCamp ref="footerSharedCamp" />
 
     <v-footer v-if="offline" app class="ec-footer offline">
@@ -18,6 +20,8 @@
       </p>
     </v-footer>
     <v-snackbar-queue v-model="snackbarMessages"></v-snackbar-queue>
+
+    <NewVersionAvailableDialog />
   </v-app>
 </template>
 
@@ -26,9 +30,13 @@ import VueI18n from '@/plugins/i18n'
 import { headEnvironment } from '@/plugins/index.js'
 import { mapGetters } from 'vuex'
 import { useHead } from '@unhead/vue'
+import NewVersionAvailableDialog from '@/components/NewVersionAvailableDialog.vue'
+import CommentsPanel from '@/components/comments/CommentsPanel.vue'
+import { getEnv } from '@/environment.js'
 
 export default {
   name: 'App',
+  components: { CommentsPanel, NewVersionAvailableDialog },
   setup() {
     useHead({
       title: null,
@@ -48,6 +56,9 @@ export default {
   }),
   computed: {
     ...mapGetters(['snackbarMessages']),
+    featureComments() {
+      return getEnv().FEATURE_COMMENTS ?? false
+    },
   },
   watch: {
     offline() {

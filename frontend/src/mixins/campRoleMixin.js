@@ -1,6 +1,7 @@
 export const campRoleMixin = {
   provide() {
     return {
+      isCollaborator: this.isCollaborator,
       isContributor: this.isContributor,
       isGuest: this.isGuest,
       isManager: this.isManager,
@@ -11,6 +12,9 @@ export const campRoleMixin = {
     }
   },
   computed: {
+    isCollaborator() {
+      return this.isGuest || this.isContributor
+    },
     // Has write access to the camp content (member, contributor or manager).
     isContributor() {
       return this.isMember || this.isManager || this._campRole === 'contributor'
@@ -35,17 +39,19 @@ export const campRoleMixin = {
       return this._campRole === 'member'
     },
     isOutsider() {
-      return (
-        this.camp && typeof this._campCollaborations === 'function' && !this._campRole
-      )
+      return this._campCollaborations.length > 0 && this._campRole === undefined
     },
     _campRole() {
       const currentUserLink = this.$store.getters.getLoggedInUser?._meta.self
-      const result = this._campCollaborations
+      const campCollaborations = this._campCollaborations
+      const result = campCollaborations
+        .filter((coll) => !coll._meta.loading)
         .filter((coll) => typeof coll.user === 'function')
         .find((coll) => coll.user()._meta.self === currentUserLink)
 
-      if (result?._meta.loading) return null
+      if (!result && campCollaborations.some((coll) => coll._meta.loading)) {
+        return null
+      }
       return result?.role
     },
     _campCollaborations() {
