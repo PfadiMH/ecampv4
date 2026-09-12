@@ -12,7 +12,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: 0,
   workers: process.env.CI ? undefined : 4,
-  reporter: process.env.CI ? 'blob' : [['html', { open: 'never' }]],
+  reporter: process.env.CI ? [['blob'], ['line']] : [['html', { open: 'never' }]],
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'retain-on-failure',
