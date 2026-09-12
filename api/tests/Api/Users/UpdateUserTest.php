@@ -37,6 +37,7 @@ class UpdateUserTest extends ECampApiTestCase {
         $user = static::getFixture('user1manager');
         static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
             'password' => 'passwordpassword',
+            'currentPassword' => 'test',
         ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
         $this->assertResponseStatusCodeSame(200);
         $this->assertJsonContains([
@@ -105,5 +106,91 @@ class UpdateUserTest extends ECampApiTestCase {
         yield 'activationKeyHash' => ['activationKeyHash'];
 
         yield 'passwordResetKeyHash' => ['passwordResetKeyHash'];
+    }
+
+    public function testPatchUserChangingPasswordRequiresCurrentPassword() {
+        $user = static::getFixture('user1manager');
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'password' => 'passwordpassword',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'currentPassword',
+                    'message' => 'The current password you entered is incorrect.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchUserChangingPasswordRejectsBlankCurrentPassword() {
+        $user = static::getFixture('user1manager');
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'password' => 'passwordpassword',
+            'currentPassword' => '',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'currentPassword',
+                    'message' => 'The current password you entered is incorrect.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchUserChangingPasswordRejectsWrongCurrentPassword() {
+        $user = static::getFixture('user1manager');
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'password' => 'passwordpassword',
+            'currentPassword' => 'wrong-current-password',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(422);
+        $this->assertJsonContains([
+            'violations' => [
+                [
+                    'propertyPath' => 'currentPassword',
+                    'message' => 'The current password you entered is incorrect.',
+                ],
+            ],
+        ]);
+    }
+
+    public function testPatchUserChangingPasswordAcceptsCorrectCurrentPassword() {
+        $user = static::getFixture('user1manager');
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'password' => 'passwordpassword',
+            'currentPassword' => 'test',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertJsonContains([
+            'displayName' => 'Bi-Pi',
+        ]);
+    }
+
+    public function testPatchUserPasswordChangeDoesNotEnablePasswordLogin() {
+        $user = static::getFixture('user1manager');
+        static::createClientWithCredentials()->request('PATCH', '/users/'.$user->getId(), ['json' => [
+            'password' => 'passwordpassword',
+            'currentPassword' => 'test',
+        ], 'headers' => ['Content-Type' => 'application/merge-patch+json']]);
+        $this->assertResponseStatusCodeSame(200);
+
+        // Password login stays disabled even after a password change (OIDC-only).
+        static::createBasicClient()->request('POST', '/authentication_token', ['json' => [
+            'identifier' => $user->getEmail(),
+            'password' => 'passwordpassword',
+        ]]);
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertResponseNotHasHeader('Set-Cookie');
+
+        // The old password cannot bypass OIDC either.
+        static::createBasicClient()->request('POST', '/authentication_token', ['json' => [
+            'identifier' => $user->getEmail(),
+            'password' => 'test',
+        ]]);
+        $this->assertResponseStatusCodeSame(401);
     }
 }

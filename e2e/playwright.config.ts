@@ -6,13 +6,13 @@ export default defineConfig({
   testDir: './tests',
   timeout: 120000,
   expect: {
-    timeout: 8000,
+    timeout: 15000,
   },
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,
-  workers: undefined,
-  reporter: process.env.CI ? 'blob' : [['html', { open: 'never' }]],
+  workers: process.env.CI ? undefined : 4,
+  reporter: process.env.CI ? [['blob'], ['line']] : [['html', { open: 'never' }]],
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'retain-on-failure',

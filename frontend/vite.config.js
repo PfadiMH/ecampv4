@@ -8,15 +8,31 @@ import { configDefaults } from 'vitest/config'
 import svgLoader from 'vite-svg-loader'
 import Vuetify from 'vite-plugin-vuetify'
 import { readdirSync } from 'fs'
+import {
+  vuePdfStylePlugin,
+  vueStyleReactPdfPlugin,
+} from './src/pdf/vue-pdf-style-plugin.js'
+import { htmlToPdfElementMap } from './src/pdf/renderer/nodeOps.js'
 
 const componentsPath = 'node_modules/vuetify/lib/components'
 const vuetifyComponents = readdirSync(componentsPath)
   .filter((file) => file.startsWith('V'))
   .map((file) => `vuetify/components/${file}`)
 
+const vuePlugin = () =>
+  vue({
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag) => Object.keys(htmlToPdfElementMap).includes(tag),
+      },
+    },
+  })
+
 const plugins = [
   comlink(), // must be first
-  vue(),
+  vueStyleReactPdfPlugin,
+  vuePlugin(),
+  vuePdfStylePlugin,
   Components({
     resolvers: [],
   }),
@@ -50,10 +66,13 @@ export default defineConfig(({ mode }) => ({
   server: {
     port: 3000,
     allowedHosts: ['frontend', 'localhost:3000'],
+    watch: {
+      ignored: ['**/data/**', '**/dist/**'],
+    },
   },
   plugins,
   worker: {
-    plugins: () => [comlink()],
+    plugins: () => [comlink(), vueStyleReactPdfPlugin, vuePlugin(), vuePdfStylePlugin],
   },
   optimizeDeps: {
     include: [
@@ -102,14 +121,6 @@ export default defineConfig(({ mode }) => ({
       'dayjs/plugin/utc',
       'file-saver',
       'linkify-it',
-      'lodash/camelCase.js',
-      'lodash/cloneDeep.js',
-      'lodash/groupBy.js',
-      'lodash/keyBy.js',
-      'lodash/sortBy.js',
-      'lodash/minBy.js',
-      'lodash/maxBy.js',
-      'lodash/size.js',
       'runes',
       'vee-validate',
       'vite-plugin-comlink/symbol',
@@ -119,6 +130,7 @@ export default defineConfig(({ mode }) => ({
       // 'vuetify/es5/components/VCalendar/modes/column.js',
       // 'vuetify/es5/components/VCalendar/util/events.js',
     ],
+    exclude: ['vue-i18n'],
   },
   build: {
     sourcemap: true,
@@ -183,6 +195,9 @@ export default defineConfig(({ mode }) => ({
       deps: {
         inline: ['vuetify'],
       },
+    },
+    snapshotFormat: {
+      maxOutputLength: 1e10,
     },
   },
 }))

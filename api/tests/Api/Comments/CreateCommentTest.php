@@ -287,8 +287,18 @@ class CreateCommentTest extends ECampApiTestCase {
     }
 
     public function testCreateReplyRejectsParentFromOtherCamp() {
-        $response = static::createClientWithCredentials()->request('POST', '/comments', ['json' => $this->getExampleWritePayload([
-            'parent' => $this->getIriFor('comment1campShared'),
+        $client = static::createClientWithCredentials();
+        $client->disableReboot();
+        // The parent must be readable: public camps no longer expose comments
+        // to outsiders. The manager belongs to both camp1 and camp2.
+        $parent = $client->request('POST', '/comments', ['json' => $this->getExampleWritePayload([
+            'camp' => $this->getIriFor('camp2'),
+            'activity' => $this->getIriFor('activity1camp2'),
+        ])])->toArray();
+        $this->assertResponseStatusCodeSame(201);
+
+        $response = $client->request('POST', '/comments', ['json' => $this->getExampleWritePayload([
+            'parent' => $parent['_links']['self']['href'],
         ])]);
 
         $this->assertResponseStatusCodeSame(422);
