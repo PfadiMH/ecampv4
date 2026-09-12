@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
-if [ -n $VERSION ]; then
-  sed -i "s|<script src=\"/environment.js\"|<script src=\"/environment.js?version=$VERSION\"|" /app/index.html
+runtime_version="${VERSION:-${RAILWAY_DEPLOYMENT_ID:-}}"
+
+if [ -n "$runtime_version" ]; then
+  sed -i "s|<script src=\"/environment.js\"|<script src=\"/environment.js?version=$runtime_version\"|" /app/index.html
 fi
