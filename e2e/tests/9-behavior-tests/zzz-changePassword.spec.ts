@@ -31,18 +31,10 @@ test('can change the password from the profile page', async ({ page, request }) 
 
   await dialog.getByRole('button', { name: /Schliessen/ }).click()
 
-  await page.getByRole('button', { name: /Castor/ }).click()
-  await page.getByRole('listitem').filter({ hasText: 'Ausloggen' }).click()
-  await page.waitForURL('**/login', { timeout: 30000 })
-
-  await page.locator('[type="email"]').fill(castorUser)
-  await page.locator('[type="password"]').fill(newPassword)
-  await Promise.all([
-    page.locator('[type="submit"]').click(),
-    page.waitForURL('/camps', { timeout: 60000 }),
-  ])
-  await expect(page.locator('body')).toContainText('Meine Lager')
-
+  // Login is OIDC-only in this fork, so the new password cannot be verified by logging
+  // out and in through a password form (there is none). Instead, the restore step below
+  // must authenticate the change with the new password as the current password, which
+  // only succeeds if the new password was actually stored.
   await page.goto('/profile')
   await page
     .locator('.e-profile--password')

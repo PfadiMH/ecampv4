@@ -32,7 +32,10 @@
         </div>
       </v-navigation-drawer>
     </template>
+    <!-- Hidden while the global comments panel is open: the FAB would otherwise
+         float over the panel's composer and cover its send button. -->
     <v-fab
+      v-if="!commentsState.open"
       app
       icon
       :order="1"
@@ -47,9 +50,14 @@
 </template>
 
 <script>
+import { commentsState } from '@/components/comments/commentsState.js'
+
 export default {
   name: 'CommentWrapper',
   inject: ['commentsController'],
+  data() {
+    return { commentsState }
+  },
   computed: {
     controller() {
       return this.commentsController
