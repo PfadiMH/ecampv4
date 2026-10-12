@@ -3,10 +3,7 @@ import { mount } from '@vue/test-utils'
 import { nextTick, reactive } from 'vue'
 import { setupVuetify } from '/tests/setupVuetify.js'
 import CommentWrapper from '@/components/comments/CommentWrapper.vue'
-import {
-  commentsState,
-  resetCommentsState,
-} from '@/components/comments/commentsState.js'
+import { commentsState, resetCommentsState } from '@/components/comments/commentsState.js'
 
 setupVuetify()
 
