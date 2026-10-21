@@ -1,6 +1,6 @@
 #!/bin/sh
 # Railway start command for the eCamp API (FrankenPHP).
-# Writes the JWT keypair from env, runs DB migrations, then starts the web server.
+# Writes the JWT keypair from env, then starts the web server.
 set -e
 
 cd /app
@@ -15,8 +15,8 @@ if [ -n "${JWT_PRIVATE_KEY_B64:-}" ] && [ -n "${JWT_PUBLIC_KEY_B64:-}" ]; then
     chmod 600 config/jwt/private.pem
 fi
 
-# Apply schema + data migrations (idempotent). Runs with a single replica.
-php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing
+# DB migrations run once per deploy as Railway's preDeployCommand (api/railway.json),
+# not here: this script also runs on every wake from sleep, so it must stay fast.
 
 # Hand off to the default FrankenPHP command. SERVER_NAME (=:$PORT) is set via env.
 exec frankenphp run --config /etc/frankenphp/Caddyfile

@@ -5,11 +5,14 @@
     "dockerfilePath": "Dockerfile"
   },
   "deploy": {
+    "preDeployCommand": [
+      "php /app/bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing"
+    ],
     "startCommand": "sh /app/bin/railway-start.sh",
     "healthcheckPath": "/",
     "healthcheckTimeout": 120,
     "restartPolicyType": "ON_FAILURE",
     "numReplicas": 1,
-    "sleepApplication": false
+    "sleepApplication": true
   }
 }
