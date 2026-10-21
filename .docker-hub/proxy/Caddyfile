@@ -16,8 +16,10 @@
 }
 
 # Retry a cold-booting (sleeping) upstream instead of 502ing the first request.
+# Keep retrying for up to 90s, just under Cloudflare's 100s origin timeout, so a
+# slow wake (e.g. api plus Postgres waking in turn) still answers instead of 502ing.
 (wake_retry) {
-	lb_try_duration 30s
+	lb_try_duration 90s
 	lb_try_interval 1s
 }
 
