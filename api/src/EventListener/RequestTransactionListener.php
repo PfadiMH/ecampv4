@@ -10,11 +10,12 @@ use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * Wraps a database transaction around all SQL statements in the whole request.
  */
-final readonly class RequestTransactionListener implements EventSubscriberInterface {
+final readonly class RequestTransactionListener implements EventSubscriberInterface, ResetInterface {
     private \SplStack $transactionLevelStack;
 
     public function __construct(
@@ -115,6 +116,26 @@ final readonly class RequestTransactionListener implements EventSubscriberInterf
             } finally {
                 $this->entityManager->clear();
             }
+        }
+    }
+
+    /**
+     * Called between requests when the kernel is reused (FrankenPHP worker mode).
+     * If a request ended without reaching commitTransaction (e.g. the commit itself
+     * threw), drop its stack entry and roll back its transaction, so the next request
+     * on this worker starts clean instead of failing with "called more than once".
+     */
+    public function reset(): void {
+        if ($this->transactionLevelStack->isEmpty()) {
+            return;
+        }
+        while (!$this->transactionLevelStack->isEmpty()) {
+            $this->transactionLevelStack->pop();
+        }
+
+        $connection = $this->entityManager->getConnection();
+        while ($connection->isTransactionActive()) {
+            $connection->rollBack();
         }
     }
 
