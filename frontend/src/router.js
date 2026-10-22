@@ -521,7 +521,10 @@ const router = createRouter({
         default: () => import('./views/camp/activity/Activity.vue'),
         aside: () => import('./views/camp/activity/SideBarProgram.vue'),
       },
-      beforeEnter: all([requireAuth, requireCamp, requireActivityScheduleEntry]),
+      beforeEnter: all([
+        requireAuth,
+        parallel([requireCamp, requireActivityScheduleEntry]),
+      ]),
       props: {
         navigation: (route) => ({ camp: campFromRoute(route) }),
         default: (route) => ({
@@ -586,6 +589,26 @@ function evaluateGuards(guards, to, from, next) {
 
 function all(guards) {
   return (to, from, next) => evaluateGuards(guards, to, from, next)
+}
+
+/**
+ * Runs independent guards concurrently, so their API requests don't wait for each other.
+ * The first guard that redirects wins; otherwise navigation continues once all passed.
+ */
+function parallel(guards) {
+  return (to, from, next) => {
+    let pending = guards.length
+    let settled = false
+    guards.forEach((guard) =>
+      guard(to, from, (nextArg) => {
+        if (settled) return
+        if (nextArg !== undefined || --pending === 0) {
+          settled = true
+          next(nextArg)
+        }
+      })
+    )
+  }
 }
 
 function requireAuth(to, from, next) {
