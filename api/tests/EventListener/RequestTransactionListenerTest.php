@@ -354,4 +354,27 @@ class RequestTransactionListenerTest extends TestCase {
             )
         );
     }
+
+    public function testResetDoesNothingWithoutPendingTransaction() {
+        $this->entityManager->expects(never())->method('getConnection');
+
+        $this->requestTransactionListener->reset();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testResetRollsBackATransactionThatWasNeverCommitted() {
+        $this->connection->method('getTransactionNestingLevel')->willReturn(1);
+        $this->connection->method('isTransactionActive')->willReturnOnConsecutiveCalls(true, false);
+        $this->connection->expects(once())->method('rollBack');
+
+        $mainRequest = new KernelEvent($this->kernel, $this->request, HttpKernelInterface::MAIN_REQUEST);
+        $this->requestTransactionListener->startTransaction($mainRequest);
+
+        $this->requestTransactionListener->reset();
+
+        // the next request on the same (reused) listener can start a transaction again
+        $this->requestTransactionListener->startTransaction($mainRequest);
+    }
 }

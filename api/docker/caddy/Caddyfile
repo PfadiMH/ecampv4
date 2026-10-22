@@ -30,7 +30,21 @@
 
 	root /app/public
 
-	encode zstd br gzip
+	# Caddy's default encode matcher doesn't know the API's JSON types (hal+json,
+	# problem+json, ...), so most API responses would go out uncompressed.
+	encode zstd br gzip {
+		match {
+			header Content-Type text/*
+			header Content-Type application/json*
+			header Content-Type application/hal+json*
+			header Content-Type application/ld+json*
+			header Content-Type application/problem+json*
+			header Content-Type application/vnd.openapi+json*
+			header Content-Type application/javascript*
+			header Content-Type application/xml*
+			header Content-Type image/svg+xml*
+		}
+	}
 
 	# Add links to the API docs if not set explicitly (e.g. the PWA)
 	header ?Link `</docs.jsonld>; rel="http://www.w3.org/ns/hydra/core#apiDocumentation"`
