@@ -85,7 +85,10 @@ CMD [ "frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile", "--watch" ]
 FROM frankenphp_base AS frankenphp_prod
 
 ENV APP_ENV=prod
-#ENV FRANKENPHP_CONFIG="import worker.Caddyfile"
+# Worker mode: keep the booted Symfony kernel (container, metadata, DB connection)
+# between requests instead of rebuilding it for every request (~150 ms per request).
+# 4 workers ≈ 200 MB RAM. Override FRANKENPHP_CONFIG to tune or to disable.
+ENV FRANKENPHP_CONFIG="worker /app/public/index.php 4"
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
