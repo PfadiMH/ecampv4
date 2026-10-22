@@ -69,11 +69,15 @@ export default {
       }))
     },
     loading() {
-      return (
-        this.scheduleEntries._meta.loading ||
-        this.period.camp().activities()._meta.loading ||
-        this.period.camp().categories()._meta.loading
-      )
+      // Touch all three collections before combining them: with a plain `||` the
+      // activities and categories would only start loading after the schedule
+      // entries arrived (three sequential round trips instead of one).
+      const loading = [
+        this.scheduleEntries._meta.loading,
+        this.period.camp().activities()._meta.loading,
+        this.period.camp().categories()._meta.loading,
+      ]
+      return loading.some(Boolean)
     },
   },
 

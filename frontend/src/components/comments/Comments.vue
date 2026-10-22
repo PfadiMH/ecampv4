@@ -1,7 +1,10 @@
 <template>
-  <CommentWrapper v-if="!comments._meta.loading">
+  <!-- The activity itself (default slot) must not wait for the comments request:
+       that would delay every content request of the activity by one round trip.
+       The editors only strip/re-anchor comment marks once commentsLoaded is true. -->
+  <CommentWrapper>
     <slot />
-    <template #comments>
+    <template v-if="commentsLoaded" #comments>
       <!-- Wide screens: anchored threads float in the margin next to their text. -->
       <div
         v-if="marginMode"
