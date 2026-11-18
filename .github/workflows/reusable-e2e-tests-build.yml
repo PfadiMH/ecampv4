@@ -30,7 +30,11 @@ jobs:
           cache-to: type=gha,scope=api,mode=max
           outputs: type=docker,dest=/tmp/ecamp3-dev-api.tar
 
-      - uses: actions/upload-artifact@v7
+      # Through the Actions cache, not an artifact: nothing goes to GitHub
+      # artifact storage (Flo's rule 2026-11-16, the account quota is full).
+      # Keyed by run, restored (fail-on-cache-miss) by the run job.
+      - name: Save images for the run job
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
-          name: e2e-tests-images
           path: /tmp/ecamp3-dev-*.tar
+          key: e2e-tests-images-${{ github.run_id }}-${{ github.run_attempt }}

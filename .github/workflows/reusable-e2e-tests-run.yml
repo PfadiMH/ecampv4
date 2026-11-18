@@ -36,11 +36,12 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Restore tmp folder
-        uses: actions/download-artifact@v8
+      - name: Restore images from the build job
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
-          name: e2e-tests-images
-          path: /tmp
+          path: /tmp/ecamp3-dev-*.tar
+          key: e2e-tests-images-${{ github.run_id }}-${{ github.run_attempt }}
+          fail-on-cache-miss: true
 
       - name: Load images
         run: |
@@ -90,19 +91,18 @@ jobs:
       - run: sudo chown -R $USER e2e
         if: always()
 
-      # store screenshots and videos on GitHub as artifacts, for downloading and debugging in case of problems
-      - uses: actions/upload-artifact@v7
-        if: ${{ !cancelled() }}
-        with:
-          name: blob-report${{ inputs.run-identifier != '' && format('-{0}', inputs.run-identifier) || '' }}-${{ matrix.browser }}
-          path: e2e/blob-report/
-          retention-days: 1
-
-      - uses: actions/upload-artifact@v7
-        if: ${{ !cancelled() }}
-        with:
-          name: traces-${{ matrix.browser }}${{ inputs.run-identifier != null && format('-{0}', inputs.run-identifier) }}
-          path: e2e/test-results
+      # Nothing is uploaded to GitHub artifact storage (Flo's rule 2026-11-16):
+      # the evidence is this job log (Playwright's list reporter output above,
+      # the failing test dirs below, the container logs further down).
+      - name: Summarize Playwright failures
+        if: ${{ failure() }}
+        continue-on-error: true
+        run: |
+          [ -d e2e/test-results ] || { echo "no e2e/test-results dir"; exit 0; }
+          echo "Failed tests (test-results dirs):"
+          find e2e/test-results -mindepth 1 -maxdepth 1 -type d | sort | sed 's|^e2e/test-results/|  |'
+          echo "Screenshots / videos / traces:"
+          find e2e/test-results -type f \( -name '*.png' -o -name '*.webm' -o -name 'trace.zip' \) | sort
 
       # print running containers
       - run: docker ps -a
@@ -111,47 +111,3 @@ jobs:
       # print docker container logs (good for debugging; can be disabled again later on)
       - run: docker compose logs --tail="all"
         if: always()
-
-  e2e-tests-merge-reports:
-    name: 'Tests: Merge e2e reports'
-    if: ${{ !cancelled() }}
-    needs: [e2e-tests-run]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '24.22.1'
-
-      - name: Install dependencies
-        working-directory: e2e
-        run: npm ci
-
-      - name: Download blob reports from GitHub Actions Artifacts
-        uses: actions/download-artifact@v8
-        with:
-          path: e2e/all-blob-reports
-          pattern: blob-report${{ inputs.run-identifier != '' && format('-{0}', inputs.run-identifier) || '' }}-*
-          merge-multiple: true
-
-      - run: mkdir -p e2e/all-blob-reports
-
-      - name: Inspect the folder
-        run: ls -la e2e/all-blob-reports
-
-      - name: Merge into HTML Report
-        working-directory: e2e
-        run: npx playwright merge-reports --reporter html ./all-blob-reports
-
-      - name:
-        uses: geekyeggo/delete-artifact@v6
-        with:
-          name: blob-report${{ inputs.run-identifier != '' && format('-{0}', inputs.run-identifier) || '' }}-*
-          failOnError: false
-
-      - name: Upload HTML report
-        uses: actions/upload-artifact@v7
-        with:
-          name: playwright-report${{ inputs.run-identifier != '' && format('-{0}', inputs.run-identifier) || '' }}
-          path: e2e/playwright-report
-          retention-days: 30
